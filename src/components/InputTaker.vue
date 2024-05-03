@@ -1,5 +1,4 @@
 <template>
-	<p>Input taker screen</p>
 	<cdx-select
 		required
 		v-model:selected="langselection"
@@ -30,7 +29,7 @@ import {
 	CdxSelect
 } from "@wikimedia/codex";
 
-import { WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE } from "../constants";
+import { WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE } from "../helpers/consts";
 
 export default {
 	name: "InputTaker",
