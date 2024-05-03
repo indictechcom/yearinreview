@@ -1,35 +1,44 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Wikipedia Year In Review</title>
-        <base target="_blank">
-        <link rel="stylesheet" href="./node_modules/@wikimedia/codex/dist/codex.style.css">
-        <meta name="viewport" content="width=device-width">
-        <style>
-            html, body {
-                margin: 0;
-                padding: 0;
-                background: #f6f0e1;
-            }
-            input:invalid {
-                background: pink!important;
-            }
-            .wikiLink {
-                color: inherit;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="app"></div>
-        <script type="module" src="./index.js"></script>
-    </body>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P8016QD6WL"></script>
-    <script>
+  <head>
+    <title>Wikipedia Year In Review</title>
+    <base target="_blank" />
+    <link
+      rel="stylesheet"
+      href="./node_modules/@wikimedia/codex/dist/codex.style.css"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f6f0e1;
+      }
+      input:invalid {
+        background: pink !important;
+      }
+      .wikiLink {
+        color: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="./index.js"></script>
+  </body>
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-P8016QD6WL"
+  ></script>
+  <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
 
-    gtag('config', 'G-P8016QD6WL');
-    </script>
+    gtag("config", "G-P8016QD6WL");
+  </script>
 </html>

@@ -1,11 +1,11 @@
 <template>
   <div>
     <page v-if="currentPage <= 0 && !activePage">
-      <h1>Wikipediaa</h1>
+      <h1>Wikipedia</h1>
       <h2>{{ previousYear }} Year in Review</h2>
       <img
         class="mainImg"
-        src="https://upload.wikimedia.org/wikipedia/commons/e/ed/WP20Symbols_MediaWiki.svg"
+        src="./assets/images/WP20Symbols_MediaWiki.svg"
         width="512"
         height="401"
       />
@@ -14,6 +14,7 @@
         helping build the best place on the Internet!
       </p>
       <label>Your Wikipedia:</label>
+
       <cdx-text-input
         required
         pattern="[^\.]*\.(wikivoyage|wikinews|wikiversity|wikibooks|wikiquote|wiktionary|wikifunctions|wikisource|wikipedia|mediawiki|wikidata|wikimedia)\.org"
@@ -150,8 +151,8 @@
           <a :href="`https://${host}`">{{ host }}</a>
           <div class="license-logo">
             <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">
-              <img src="./Cc.logo.circle.svg.webp" />
-              <img src="./Cc-zero.svg.png" />
+              <img src="./assets/icons/cc-zero.svg.png" />
+              <img src="./assets/icons/cc-zero.svg.png" />
             </a>
           </div>
         </footer>
@@ -187,7 +188,7 @@ import {
   cdxIconUserTalk,
   cdxIconEdit,
 } from "@wikimedia/codex-icons";
-import yir from "./yir.js";
+import yir from "./utils/yir";
 import Page from "./Page.vue";
 import StatBox from "./StatBox.vue";
 import {
@@ -208,7 +209,7 @@ import {
   MEETING,
   FRIENDSHIP,
   COMMUNITY,
-} from "./consts.js";
+} from "./helpers/consts";
 
 const humanDay = (day) => {
   return [
