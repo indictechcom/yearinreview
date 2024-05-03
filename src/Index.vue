@@ -24,14 +24,7 @@
 </template>
 
 <script>
-import {
-  CdxButton,
-  CdxIcon,
-  CdxTextInput,
-  CdxMessage,
-  CdxSelect,
-  CdxCard,
-} from "@wikimedia/codex";
+import { CdxCard } from "@wikimedia/codex";
 import InputTaker from "./components/InputTaker"
 import UserStat from "./components/UserStat"
 

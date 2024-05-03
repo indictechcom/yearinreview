@@ -1,45 +1,59 @@
-const WIKIPEDIA = {
-  source:
-    "https://upload.wikimedia.org/wikipedia/commons/e/ed/WP20Symbols_MediaWiki.svg",
+const BASE_URL_WIKI_IMAGES = "https://upload.wikimedia.org/wikipedia/commons/";
+const BASIC_CONFIG = {
   width: 512,
   height: 401,
+};
+
+const WIKIPEDIA = {
+  source: `${BASE_URL_WIKI_IMAGES}/e/ed/WP20Symbols_MediaWiki.svg`,
+  ...BASIC_CONFIG,
 };
 const PUZZLE = {
-  source:
-    "https://upload.wikimedia.org/wikipedia/commons/6/65/WP20Symbols_puzzleglobe1.svg",
-  width: 512,
-  height: 401,
+  source: `${BASE_URL_WIKI_IMAGES}/6/65/WP20Symbols_puzzleglobe1.svg`,
+  ...BASIC_CONFIG,
 };
 const PUZZLE_COLLAB = {
-  source:
-    "https://upload.wikimedia.org/wikipedia/commons/c/c2/Adapted_Wikipedia20symbol_collaboration.svg",
-  width: 512,
-  height: 401,
+  source: `${BASE_URL_WIKI_IMAGES}/c/c2/Adapted_Wikipedia20symbol_collaboration.svg`,
+  ...BASIC_CONFIG,
 };
+
 const PEN_PAPER = {
-  source:
-    "https://upload.wikimedia.org/wikipedia/commons/7/7c/WP20Symbols_PENANDPAPER.svg",
-  width: 512,
-  height: 401,
+  source: `${BASE_URL_WIKI_IMAGES}/7/7c/WP20Symbols_PENANDPAPER.svg`,
+  ...BASIC_CONFIG,
 };
+
 const MEETING = {
-  source:
-    "https://upload.wikimedia.org/wikipedia/commons/f/f9/Adapted_Wikipedia20symbol_meeting.svg",
-  width: 512,
-  height: 401,
+  source: `${BASE_URL_WIKI_IMAGES}/f/f9/Adapted_Wikipedia20symbol_meeting.svg`,
+  ...BASIC_CONFIG,
 };
+
 const FRIENDSHIP = {
-  source:
-    "https://upload.wikimedia.org/wikipedia/commons/7/72/Adapted_Wikipedia20symbol_friendship.svg",
-  width: 512,
-  height: 401,
+  source: `${BASE_URL_WIKI_IMAGES}/7/72/Adapted_Wikipedia20symbol_friendship.svg`,
+  ...BASIC_CONFIG,
 };
+
 const COMMUNITY = {
-  source:
-    "https://upload.wikimedia.org/wikipedia/commons/a/a3/Adapted_Wikipedia20symbol_community.svg",
-  width: 512,
-  height: 401,
+  source: `${BASE_URL_WIKI_IMAGES}/a/a3/Adapted_Wikipedia20symbol_community.svg`,
+  ...BASIC_CONFIG,
 };
+
+const WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE = [
+  { label: "Wikipedia", value: "wikipedia" },
+  { label: "Wiktionary", value: "wiktionary" },
+  { label: "Wikiquote", value: "wikiquote" },
+  { label: "Wikibooks", value: "wikibooks" },
+  { label: "Wikisource", value: "wikisource" },
+  { label: "Wikinews", value: "wikinews" },
+  { label: "Wikiversity", value: "wikiversity" },
+  { label: "Wikivoyage", value: "wikivoyage" },
+];
+
+const WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE = [
+  { label: "Wikimedia Commons", value: "commons" },
+  { label: "Wikidata", value: "wikidata" },
+  { label: "MediaWiki", value: "mediawiki" },
+  { label: "Meta", value: "meta" },
+];
 
 export {
   WIKIPEDIA,
@@ -49,4 +63,6 @@ export {
   MEETING,
   FRIENDSHIP,
   COMMUNITY,
+  WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE,
+  WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE,
 };

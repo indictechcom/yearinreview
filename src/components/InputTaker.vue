@@ -23,11 +23,15 @@
 	  <cdx-button @click="statclickhandler">Show stats</cdx-button>
 </template>
 <script>
+
 import {
 	CdxTextInput,
 	CdxButton,
 	CdxSelect
 } from "@wikimedia/codex";
+
+import { WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE } from "../constants";
+
 export default {
 	name: "InputTaker",
 	components: {
@@ -46,10 +50,7 @@ export default {
 				{ label: 'en', value: 'en' },
 			],
 			langselection: null,
-			wikiprojectlist: [
-				{ label: 'Wikipedia', value: 'wikipedia' },
-				{ label: 'Commons', value: 'commons' },
-			],
+			wikiprojectlist: WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE,
 			projectselection: null
 		}
 	}
