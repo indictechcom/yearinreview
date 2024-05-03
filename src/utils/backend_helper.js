@@ -7,6 +7,8 @@ localStorage.removeItem(OLD_CACHE_KEY);
 const shortTermCache = JSON.parse(localStorage.getItem("cache-short") || "{}");
 const summaryCache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
 
+import * as url from "./url_helper";
+
 // A week cache is fine.
 const CACHE_TIME = 7 * 24 * 60 * 60;
 
@@ -126,25 +128,37 @@ const topArticles = (articles, field = "title") => {
     .sort((a, b) => (a.count > b.count ? -1 : 1));
 };
 
-const thanksSummary = (username, year, project) => {
-  return continueFetch(
-    `https://${project}/w/api.php`,
-    {
-      leend: `${year - 1}-12-31T23:59:59.000Z`,
-      maxage: CACHE_TIME,
-      smaxage: CACHE_TIME,
-      lestart: `${year + 1}-01-01T00:00:00.000Z`,
-      lelimit: 500,
-      origin: "*",
-      action: "query",
-      format: "json",
-      formatversion: 2,
-      list: "logevents",
-      letype: "thanks",
-      leuser: username,
-    },
-    "logevents"
-  ).then((thanks) => {
+// Helper function to generate API request configuration
+const getRequestConfig = (username, year, project) => {
+  return {
+    leend: `${year - 1}-12-31T23:59:59.000Z`,
+    lestart: `${year + 1}-01-01T00:00:00.000Z`,
+    maxage: CACHE_TIME,
+    smaxage: CACHE_TIME,
+    lelimit: 500,
+    origin: "*",
+    action: "query",
+    format: "json",
+    formatversion: 2,
+    list: "logevents",
+    letype: "thanks",
+    ...(project ? { letitle: `User:${username}` } : { leuser: username }),
+  };
+};
+
+// Helper function to generate API URL
+const getApiUrl = (project) => `https://${project}/w/api.php`;
+
+// Function to fetch thanks summary
+const thanksSummary = async (username, year, project) => {
+  try {
+    const response = await continueFetch(
+      getApiUrl(project),
+      getRequestConfig(username, year, project),
+      "logevents"
+    );
+    const thanks = await response.json();
+
     return {
       topThanksTo: topArticles(thanks).map((u) =>
         Object.assign(u, {
@@ -153,43 +167,35 @@ const thanksSummary = (username, year, project) => {
       ),
       thanksCount: thanks.length,
     };
-  });
+  } catch (error) {
+    console.error("Error fetching thanks summary:", error);
+    return null;
+  }
 };
 
-const thankedSummary = (username, year, project) => {
-  return continueFetch(
-    `https://${project}/w/api.php`,
-    {
-      leend: `${year - 1}-12-31T23:59:59.000Z`,
-      lestart: `${year + 1}-01-01T00:00:00.000Z`,
-      maxage: CACHE_TIME,
-      smaxage: CACHE_TIME,
-      lelimit: 500,
-      origin: "*",
-      action: "query",
-      format: "json",
-      formatversion: 2,
-      list: "logevents",
-      letype: "thanks",
-      letitle: `User:${username}`,
-    },
-    "logevents"
-  ).then((thanks) => {
+const thankedSummary = async (username, year, project) => {
+  try {
+    const response = await continueFetch(
+      getApiUrl(project),
+      getRequestConfig(username, year, project),
+      "logevents"
+    );
+    const thanks = await response.json();
+
     return {
       topThanksFrom: topArticles(thanks, "user"),
       thankedCount: thanks.length,
     };
-  });
+  } catch (error) {
+    console.error("Error fetching thanked summary:", error);
+    return null;
+  }
 };
 
 const addThumbs = (titles) => {
   return Promise.all(
     titles.map((t) =>
-      fetch(
-        `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
-          t
-        )}`
-      )
+      fetch(`${url.PAGE_SUMMARY}${encodeURIComponent(t)}`)
         .then((r) => r.json())
         .then((p) => p.thumbnail)
     )
