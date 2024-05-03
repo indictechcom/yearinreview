@@ -178,7 +178,11 @@
     </page>
   </div>
 </template>
+
+
 <script>
+/** native script starts here */
+
 import * as htmlToImage from "html-to-image";
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 import {
@@ -201,6 +205,7 @@ import {
 } from "@wikimedia/codex";
 import "@wikimedia/codex";
 
+import Button from "./components/Button";
 import {
   WIKIPEDIA,
   PUZZLE,
@@ -209,7 +214,7 @@ import {
   MEETING,
   FRIENDSHIP,
   COMMUNITY,
-} from "./helpers/consts";
+} from "./helpers/consts.js";
 
 const humanDay = (day) => {
   return [
@@ -244,9 +249,10 @@ export default {
     StatBox,
     CdxMessage,
     CdxTextInput,
+    Button,
   },
   computed: {
-    disableBtn() {
+    checkForIsDisabled() {
       if (
         !this.project.match(
           /[^\.]*\.(wikivoyage|wikinews|wikiversity|wikibooks|wikiquote|wiktionary|wikifunctions|wikisource|wikipedia|mediawiki|wikidata|wikimedia)\.org/
@@ -558,7 +564,10 @@ export default {
     };
   },
 };
+
+/** native script ends here */
 </script>
+
 <style scoped>
 .nextIcon {
   transform: rotate(90deg);
@@ -659,5 +668,5 @@ footer a,
 .yearSwitcher select {
   display: block;
   margin-top: 10px;
-}
+  }
 </style>
