@@ -11,11 +11,14 @@
       </span>
       <span class="cdx-card__text__title">You made</span>
       <span class="cdx-card__text__description" style="font-size: 32px"
-        >11 edits</span
+        >11</span
       >
+      <span class="cdx-card__text__description">edits</span>
       <span class="cdx-card__text__description">across this project</span>
-      <cdx-button action="progressive" weight="primary"> Next </cdx-button>
-      <cdx-button> Back </cdx-button>
+      <cdx-button action="progressive" weight="primary" style="width: 250px">
+        Next
+      </cdx-button>
+      <cdx-button style="width: 250px"> Back </cdx-button>
     </span>
   </a>
 </template>
@@ -44,15 +47,15 @@ export default {
 
 <style scoped>
 .cdx-card {
-  width: 450px;
-  height: 500px;
-  border-radius: 10%;
+  width: 350px;
+  height: 400px;
+  border-radius: 12%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: #f0f0f0; /* Add background color as needed */
+  background-color: #ffffff; /* Add background color as needed */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
 }
 
@@ -63,6 +66,7 @@ export default {
 }
 
 .cdx-thumbnail__image {
+  border: none;
   height: 150px;
   width: auto;
   max-width: 100%;
