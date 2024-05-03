@@ -55,6 +55,10 @@ const WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE = [
   { label: "Meta", value: "meta" },
 ];
 
+const WIKI_LINK_PATTERN =
+  "[^.]*.(wikivoyage|wikinews|wikiversity|wikibooks|wikiquote|wiktionary|wikifunctions|wikisource|wikipedia|mediawiki|wikidata|wikimedia).org";
+const USERNAME_PATTERN = "^[^:]*$";
+
 export {
   WIKIPEDIA,
   PUZZLE,
@@ -65,4 +69,6 @@ export {
   COMMUNITY,
   WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE,
   WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE,
+  WIKI_LINK_PATTERN,
+  USERNAME_PATTERN,
 };
