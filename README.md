@@ -16,7 +16,7 @@ git clone https://github.com/your-username/year-in-review.git
 
 Go to project directory `cd year-in-review`
 Install Dependencies `npm install`
-Run the Project `npm run serve`
+Run the Project `npm start`
 
 Access the Application
 Open your web browser and navigate to http://localhost:1234 to access the Wikimedia's Year in Review application.
@@ -28,7 +28,7 @@ Users can interact with different elements of the interface to explore detailed 
 
 Contributions to the Year in Review project are welcome! If you'd like to contribute, please follow these steps:
 
-- Fork the repository on GitHub.
+- Fork the repository on Gitlab.
 - Create a new branch for your feature or bug fix.
 - Make your changes and ensure that the project builds successfully.
 - Test your changes thoroughly.
