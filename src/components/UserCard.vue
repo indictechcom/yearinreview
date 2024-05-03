@@ -1,5 +1,4 @@
 <template>
-  <p>User stat screen</p>
   <a class="cdx-card cdx-card--is-link" href="https://www.example.com">
     <span class="cdx-card__text">
       <span class="cdx-card__thumbnail cdx-thumbnail">

@@ -25,8 +25,8 @@
 
 <script>
 import { CdxCard } from "@wikimedia/codex";
-import InputTaker from "./components/InputTaker"
-import UserStat from "./components/UserStat"
+import InputTaker from "./layouts/userInputLayout";
+import UserStat from "./layouts/userStatLayout";
 
 export default {
 	name: "Index",
@@ -37,7 +37,6 @@ export default {
 	},
 	methods: {
 		statclickhandler() {
-			console.log("computing stats");
 			this.currentPage = "userStat";
 		}
 	},
@@ -49,5 +48,3 @@ export default {
 	}
 }
 </script>
-<style>
-</style>

@@ -1,25 +1,27 @@
 <template>
-	<cdx-select
-		required
-		v-model:selected="langselection"
-		:menu-items="languagelist"
-		default-label="Choose a language"
-	/>
-	<cdx-select
-        required
-        v-model:selected="projectselection"
-		:menu-items="wikiprojectlist"
-		default-label="Choose project"
-	/>
-	<cdx-text-input
-        required
-        pattern="^[^:]+$"
-        @keyup.enter="start"
-        type="text"
-        v-model="username"
-		placeholder="What's your username"
-      ></cdx-text-input>
-	  <cdx-button @click="statclickhandler">Show stats</cdx-button>
+	<div class="input-layout">
+		<cdx-select
+			required
+			v-model:selected="langselection"
+			:menu-items="languagelist"
+			default-label="Choose a language"
+		/>
+		<cdx-select
+			required
+			v-model:selected="projectselection"
+			:menu-items="wikiprojectlist"
+			default-label="Choose project"
+		/>
+		<cdx-text-input
+			required
+			pattern="^[^:]+$"
+			@keyup.enter="start"
+			type="text"
+			v-model="username"
+			placeholder="What's your username"
+		></cdx-text-input>
+		<cdx-button @click="statclickhandler">Show stats</cdx-button>
+	</div>
 </template>
 <script>
 

@@ -1,0 +1,29 @@
+body {
+	background: #fffff2;
+	margin: 0;
+	padding: 0;
+}
+
+.wikiLink {
+	color: inherit;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 60%;
+	height: 100vh;
+	margin: auto;
+
+	img {
+		align-self: flex-start;
+	}
+}
+
+.input-layout {
+	padding: 1rem 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;	
+}
