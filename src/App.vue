@@ -188,7 +188,7 @@ import {
   cdxIconUserTalk,
   cdxIconEdit,
 } from "@wikimedia/codex-icons";
-import yir from "./utils/yir";
+import helper from "./utils/backend_helper";
 import Page from "./Page.vue";
 import StatBox from "./StatBox.vue";
 import {
@@ -384,9 +384,9 @@ export default {
         this.loading = 0;
       };
       const statuschecker = setInterval(() => {
-        this.status = yir.getStatus();
+        this.status = helper.getStatus();
       }, 300);
-      yir(this.username, this.previousYear, this.project).then((stats) => {
+      helper(this.username, this.previousYear, this.project).then((stats) => {
         clearInterval(loader);
         clearInterval(statuschecker);
         this.loading = 0;
