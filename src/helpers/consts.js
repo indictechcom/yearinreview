@@ -59,6 +59,18 @@ const WIKI_LINK_PATTERN =
   "[^.]*.(wikivoyage|wikinews|wikiversity|wikibooks|wikiquote|wiktionary|wikifunctions|wikisource|wikipedia|mediawiki|wikidata|wikimedia).org";
 const USERNAME_PATTERN = "^[^:]*$";
 
+// card type constants
+const CARD_TYPE = {
+  USER_STATS: "user_stats",
+  USER_SUMMARY: "user_summary",
+};
+
+// screen type constants
+const SCREEN_TYPE = {
+  USER_INPUT_SCREEN: "user_input_screen",
+  USER_STATS_SCREEN: "user_stats_screen",
+};
+
 export {
   WIKIPEDIA,
   PUZZLE,
@@ -71,4 +83,6 @@ export {
   WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE,
   WIKI_LINK_PATTERN,
   USERNAME_PATTERN,
+  CARD_TYPE,
+  SCREEN_TYPE,
 };

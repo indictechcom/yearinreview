@@ -55,7 +55,10 @@ export default {
     Button,
     BaseCard,
   },
-  props: ["statclickhandler"],
+  props: {
+    statclickhandler: Function
+  },
+  
   data() {
     return {
       project: "wikipedia",

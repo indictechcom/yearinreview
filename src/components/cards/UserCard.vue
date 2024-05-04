@@ -9,8 +9,15 @@
 		<template #bCardEnd>
 			<p>{{ cardEndText }}</p>
 			<div class="card-buttons">
-				<Button buttonText="Next"></Button>
-				<Button buttonText="Previous" weight="secondary">Previous</Button>
+				<Button 
+					buttonText="Next" 
+					:onClick="onNextClick"
+				/>
+				<Button 
+					buttonText="Previous" 
+					weight="secondary" 
+					:onClick="onPreviousClick"
+				/>
 			</div>
 		</template>
 	</BaseCard>
@@ -25,20 +32,14 @@ export default {
 		Button
 	},
 	props: {
-		cardId: String,
+		cardId: Number,
 		type: String,
 		cardTitle: String,
-		imageURL: String,
-		cardEndText: String
+		cardEndText: String,
+		cardEndLimit: Number,
+		onPreviousClick: Function,
+		onNextClick: Function
 	},
-	methods: {
-		gonext() {
-			console.log("going next")
-		},
-		goback() {
-			console.log("going back")
-		}
-	}
 }
 </script>
 <style>
