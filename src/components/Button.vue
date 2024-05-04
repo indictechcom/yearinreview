@@ -41,8 +41,10 @@
 
 <style>
     .cdx-button {
-        width: 100%;
+        min-width: 100%;
         font-size: 1rem;
         z-index: 1;
+        padding: 10px;
+        border-radius: 10px;
     }
 </style>

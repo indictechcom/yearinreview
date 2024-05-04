@@ -1,6 +1,5 @@
 <template>
   <div class="base-card">
-    <img src="../../assets/images/WP20Symbols_MediaWiki.svg" />
     <slot name="bCardTop"></slot>
     <slot name="bCardMiddle"></slot>
     <slot name="bCardEnd"></slot>
@@ -18,14 +17,23 @@ export default {
 <style scoped>
 .base-card {
   background: white;
-  width: 40%;
   margin: 0 auto;
-  padding: 1rem 0;
-  border-radius: 2rem;
-  /* border: 1px solid grey; */
+  padding: 2rem 1rem;
+  border-radius: 1rem;
   text-align: center;
+  width: 50%;
+
   img {
-    width: 90%;
+    width: 40%;
+
+    @media only screen and (max-width: 640px) {
+      width: 50%;
+    }
+  }
+
+  @media only screen and (max-width: 640px) {
+    width: 80%;
+    padding: 2rem 10px;
   }
 }
 </style>

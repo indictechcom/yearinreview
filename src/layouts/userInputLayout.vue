@@ -1,8 +1,9 @@
 <template>
+  <img style="width: 24%; margin: 20px auto" src="../assets/images/WP20Symbols_MediaWiki.svg" />
   <BaseCard :id="cardId">
     <template #bCardTop>
-      <h1>Wikimedia contributions</h1>
-      <p>
+      <h1 class="contribution-header">Wikimedia contributions</h1>
+      <p class="contribution-subheader">
         Let's look back at all the good work you have been doing this year in
         helping build the best place on the Internet!
       </p>
@@ -118,3 +119,29 @@ export default {
   },
 };
 </script>
+<style scoped>
+.input-layout {
+	padding: 2rem;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 1rem;
+
+	input {
+		text-align: center;
+	}
+
+  @media only screen and (max-width: 640px) {
+      padding: 1rem;
+  }
+}
+.contribution-header{
+  font-weight: 300;
+  margin: 10px auto;
+}
+.contribution-subheader {
+  width: 90%;
+  margin: 20px auto;
+  
+}
+</style>

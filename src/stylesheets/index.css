@@ -4,10 +4,6 @@ body {
 	padding: 0;
 }
 
-.wikiLink {
-	color: inherit;
-}
-
 .wrapper {
 	display: flex;
 	flex-direction: column;
@@ -20,15 +16,9 @@ body {
 	img {
 		align-self: flex-start;
 	}
-}
 
-.input-layout {
-	padding: 2rem;
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	input {
-		text-align: center;
+	@media only screen and (max-width: 640px) {
+		width: 100%;
+		padding: 0;
 	}
-	gap: 1rem;
 }
