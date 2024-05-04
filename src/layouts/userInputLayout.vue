@@ -1,8 +1,11 @@
 <template>
   <BaseCard :id="cardId">
-		<template #bCardTop>
-			<h1>Wikimedia contributions</h1>
-      <p>Let's look back at all the good work you have been doing this year in helping build the best place on the Internet!</p>
+    <template #bCardTop>
+      <h1>Wikimedia contributions</h1>
+      <p>
+        Let's look back at all the good work you have been doing this year in
+        helping build the best place on the Internet!
+      </p>
     </template>
     <template #bCardMiddle>
       <div class="input-layout">
@@ -15,6 +18,7 @@
         ></cdx-select>
         <cdx-select
           required
+          :disabled="!selectedLang"
           :selected="selectedProject"
           :menu-items="wikiprojectlist"
           @update:selected="handleProjectChange"
@@ -22,19 +26,22 @@
         />
         <cdx-text-input
           required
+          :disabled="!selectedProject"
           pattern="^[^:]+$"
           type="text"
           v-model="username"
           placeholder="Whats your username"
         ></cdx-text-input>
-        <Button buttonText="Show stats" @click="statclickhandler">Show stats</Button>
+        <Button buttonText="Show stats" @click="statclickhandler"
+          >Show stats</Button
+        >
       </div>
     </template>
-	</BaseCard>
+  </BaseCard>
 </template>
 <script>
 import { CdxTextInput, CdxButton, CdxSelect } from "@wikimedia/codex";
-import Button from "../components/Button"
+import Button from "../components/Button.vue";
 
 import apiresponse from "../mocks/apiresponse.json";
 import BaseCard from "../components/cards/BaseCard";
@@ -46,7 +53,7 @@ export default {
     CdxButton,
     CdxSelect,
     Button,
-    BaseCard
+    BaseCard,
   },
   props: ["statclickhandler"],
   data() {
