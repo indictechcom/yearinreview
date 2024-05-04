@@ -1,15 +1,15 @@
 <template>
 	<UserCard
 		:cardId="currentCardIndex"
-		:cardTitle="this.cards[currentCardIndex].messagePrefix"
-		:cardEndText="this.cards[currentCardIndex].messageSuffix"
+		:cardTitle="this.cards[currentCardIndex] && this.cards[currentCardIndex].messagePrefix ? this.cards[currentCardIndex].messagePrefix : ''"
+		:cardEndText="this.cards[currentCardIndex] && this.cards[currentCardIndex].messageSuffix ? this.cards[currentCardIndex].messageSuffix : ''"
 		:cardEndLimit="this.cards.length"
 		:onNextClick="goNext"
 		:onPreviousClick="goBack"
 	>
 		<template #userCardMiddle>
-			<div v-if="this.cards[currentCardIndex].value"> {{this.cards[currentCardIndex].value}} </div>
-			<div v-if="this.cards[currentCardIndex].qualifier"> {{this.cards[currentCardIndex].qualifier}} </div>
+			<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].value"> {{this.cards[currentCardIndex].value}} </div>
+			<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].qualifier"> {{this.cards[currentCardIndex].qualifier}} </div>
 		</template>
 	</UserCard>
 </template>
