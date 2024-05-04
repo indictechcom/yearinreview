@@ -9,27 +9,26 @@ Year in Review is a project aimed at celebrating the statistics and achievements
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/year-in-review.git
+git clone https://gitlab.wikimedia.org/toolforge-repos/yearinreview
 ```
 
-### Navigate to Project Directory
+### Run the project
 
-Go to project directory `cd year-in-review`
-Install Dependencies `npm install`
-Run the Project `npm start`
+- Go to project directory `cd year-in-review`
+- Install Dependencies `npm ci`
+- Run the Project `npm start`
 
-Access the Application
-Open your web browser and navigate to http://localhost:1234 to access the Wikimedia's Year in Review application.
+### Access the Application
+Open your web browser and navigate to http://localhost:1234 to access the web app!
 
 ### Usage
 
-Upon accessing the application, users can view a summary of their contributions and statistics for the previous year.
-Users can interact with different elements of the interface to explore detailed statistics, milestones, and achievements.
+Upon accessing the application, users can view a summary of their contributions and statistics for any previous year.
 
+### Contributions
 Contributions to the Year in Review project are welcome! If you'd like to contribute, please follow these steps:
 
-- Fork the repository on Gitlab.
+- Fork the repository on Gitlab and clone it on your system.
 - Create a new branch for your feature or bug fix.
-- Make your changes and ensure that the project builds successfully.
 - Test your changes thoroughly.
 - Commit your changes and create a pull request with a descriptive title and explanation of your changes.
