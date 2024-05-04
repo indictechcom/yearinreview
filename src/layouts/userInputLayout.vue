@@ -57,14 +57,14 @@ export default {
     BaseCard,
   },
   props: {
-    statclickhandler: Function
+    statclickhandler: Function,
   },
-  
+
   data() {
     return {
       project: "wikipedia",
       selectedProject: null,
-      selectedLang: null,
+      selectedLang: "en",
       username: "",
       languagelist: [],
       wikiprojectlist: [],
@@ -72,6 +72,7 @@ export default {
   },
   created() {
     this.updateLanguageList();
+    this.updateProjectList();
   },
   methods: {
     handleLanguageChange(modelValue) {
