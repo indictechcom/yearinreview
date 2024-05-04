@@ -2,13 +2,13 @@
 	<BaseCard :id="cardId">
 		<template #bCardTop>
 			<img :src="imageURL"/>
-			<p>{{ cardTitle }}</p>
+			<p style="font-size: 26px;">{{ cardTitle }}</p>
 		</template>
 		<template #bCardMiddle>
 			<slot name="userCardMiddle"></slot>
 		</template>
 		<template #bCardEnd>
-			<p>{{ cardEndText }}</p>
+			<p style="font-size: 20px;">{{ cardEndText }}</p>
 			<div class="card-buttons">
 				<Button 
 					buttonText="Next" 

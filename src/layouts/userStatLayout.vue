@@ -1,6 +1,7 @@
 <template>
 	<UserCard
 		:cardId="currentCardIndex"
+		:imageURL="this.cards[currentCardIndex] && this.cards[currentCardIndex].image ? this.cards[currentCardIndex].image.source : ''"
 		:cardTitle="this.cards[currentCardIndex] && this.cards[currentCardIndex].messagePrefix ? this.cards[currentCardIndex].messagePrefix : ''"
 		:cardEndText="this.cards[currentCardIndex] && this.cards[currentCardIndex].messageSuffix ? this.cards[currentCardIndex].messageSuffix : ''"
 		:cardEndLimit="this.cards.length"
@@ -9,8 +10,8 @@
 	>
 		<template #userCardMiddle>
 			<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type === CARD_TYPE.USER_STATS">
-				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].value"> {{this.cards[currentCardIndex].value}} </div>
-				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].qualifier"> {{this.cards[currentCardIndex].qualifier}} </div>
+				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].value" style="font-size: 96px;"> {{this.cards[currentCardIndex].value}} </div>
+				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].qualifier" style="font-size: 26px"> {{this.cards[currentCardIndex].qualifier}} </div>
 			</div>
 			<div v-else>
 				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].shareStats && this.cards[currentCardIndex].shareStats.editCount"> Edit count: {{this.cards[currentCardIndex].shareStats.editCount}} </div>
