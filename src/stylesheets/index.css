@@ -13,8 +13,9 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	width: 60%;
-	height: 100vh;
+	min-height: 100vh;
 	margin: auto;
+	padding: 1rem;
 
 	img {
 		align-self: flex-start;
