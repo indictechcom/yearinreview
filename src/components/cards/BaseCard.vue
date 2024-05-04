@@ -17,6 +17,7 @@ export default {
 </script>
 <style scoped>
 	.base-card {
+		background: white;
 		width: 40%;
 		margin: 0 auto;
 		padding: 1rem 0;

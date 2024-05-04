@@ -1,33 +1,43 @@
 <template>
-  <div class="input-layout">
-    <cdx-select
-      required
-      :menu-items="languagelist"
-      :selected="selectedLang"
-      @update:selected="handleLanguageChange"
-      default-label="Choose a language"
-    ></cdx-select>
-    <cdx-select
-      required
-      :selected="selectedProject"
-      :menu-items="wikiprojectlist"
-      @update:selected="handleProjectChange"
-      default-label="Choose project"
-    />
-    <cdx-text-input
-      required
-      pattern="^[^:]+$"
-      type="text"
-      v-model="username"
-      placeholder="Whats your username"
-    ></cdx-text-input>
-    <cdx-button @click="statclickhandler">Show stats</cdx-button>
-  </div>
+  <BaseCard :id="cardId">
+		<template #bCardTop>
+			<h1>Wikimedia contributions</h1>
+      <p>Let's look back at all the good work you have been doing this year in helping build the best place on the Internet!</p>
+    </template>
+    <template #bCardMiddle>
+      <div class="input-layout">
+        <cdx-select
+          required
+          :menu-items="languagelist"
+          :selected="selectedLang"
+          @update:selected="handleLanguageChange"
+          default-label="Choose a language"
+        ></cdx-select>
+        <cdx-select
+          required
+          :selected="selectedProject"
+          :menu-items="wikiprojectlist"
+          @update:selected="handleProjectChange"
+          default-label="Choose project"
+        />
+        <cdx-text-input
+          required
+          pattern="^[^:]+$"
+          type="text"
+          v-model="username"
+          placeholder="Whats your username"
+        ></cdx-text-input>
+        <Button buttonText="Show stats" @click="statclickhandler">Show stats</Button>
+      </div>
+    </template>
+	</BaseCard>
 </template>
 <script>
 import { CdxTextInput, CdxButton, CdxSelect } from "@wikimedia/codex";
+import Button from "../components/Button"
 
 import apiresponse from "../mocks/apiresponse.json";
+import BaseCard from "../components/cards/BaseCard";
 
 export default {
   name: "InputTaker",
@@ -35,6 +45,8 @@ export default {
     CdxTextInput,
     CdxButton,
     CdxSelect,
+    Button,
+    BaseCard
   },
   props: ["statclickhandler"],
   data() {
