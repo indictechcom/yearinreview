@@ -8,11 +8,10 @@
 		:onNextClick="goNext"
 		:onPreviousClick="goBack"
 	>
-		<!-- <template v-if="Object.keys(this.userCards[currentCardIndex].extra).length > 0" #userCardMiddle>
-			<div v-for="(value, key) in this.userCards[currentCardIndex].extra" :key="key">
-				{{ key }}: {{ value }}
-			</div>
-		</template> -->
+		<template #userCardMiddle>
+			<div v-if="this.cards[currentCardIndex].value"> {{this.cards[currentCardIndex].value}} </div>
+			<div v-if="this.cards[currentCardIndex].qualifier"> {{this.cards[currentCardIndex].qualifier}} </div>
+		</template>
 	</UserCard>
 </template>
 
@@ -35,9 +34,9 @@
 </script>
   
 <style scoped>
-.stat-wrapper {
-  width: 100%;
-  margin: 1rem auto;
-  padding: 2rem;
-}
+	.stat-wrapper {
+	width: 100%;
+	margin: 1rem auto;
+	padding: 2rem;
+	}
 </style>

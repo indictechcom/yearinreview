@@ -43,7 +43,11 @@
           default-label="Choose year"
           @update:selected="updateYear"
         ></cdx-select>
-        <Button buttonText="Show stats" :onClick="onSubmit" />
+        <Button 
+          buttonText="Show stats" 
+          :onClick="onSubmit"
+          :isDisabled="!selectedProject || !username || !previousYear"
+        />
       </div>
     </template>
   </BaseCard>
