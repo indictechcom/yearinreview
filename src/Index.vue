@@ -50,7 +50,6 @@ const MONTH = currentDate.getMonth();
 const CURRENT_YEAR = currentDate.getFullYear();
 const YEAR = MONTH === 11 ? CURRENT_YEAR + 1 : CURRENT_YEAR;
 const PREVIOUS_YEAR = YEAR - 1;
-console.log("[DEBUG]", currentDate, MONTH, CURRENT_YEAR, YEAR, PREVIOUS_YEAR);
 
 const LAST_FIVE = [YEAR - 1, YEAR - 2, YEAR - 3, YEAR - 4, YEAR - 5].map(
   (year) => ({
