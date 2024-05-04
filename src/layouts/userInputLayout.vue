@@ -11,19 +11,19 @@
       <div class="input-layout">
         <cdx-select
           required
-          :menu-items="languagelist"
-          :selected="selectedLang"
-          @update:selected="handleLanguageChange"
-          default-label="Choose a language"
-        ></cdx-select>
-        <cdx-select
-          required
           :disabled="!selectedLang"
           :selected="selectedProject"
           :menu-items="wikiprojectlist"
           @update:selected="handleProjectChange"
           default-label="Choose project"
         />
+        <cdx-select
+          required
+          :menu-items="languagelist"
+          :selected="selectedLang"
+          @update:selected="handleLanguageChange"
+          default-label="Choose a language"
+        ></cdx-select>
         <cdx-text-input
           required
           :disabled="!selectedProject"
@@ -46,6 +46,9 @@ import Button from "../components/Button.vue";
 import apiresponse from "../mocks/apiresponse.json";
 import BaseCard from "../components/cards/BaseCard";
 
+import { WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE } from "../helpers/consts";
+import { WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE} from "../helpers/consts"
+
 export default {
   name: "InputTaker",
   components: {
@@ -66,52 +69,43 @@ export default {
       selectedLang: "en",
       username: "",
       languagelist: [],
-      wikiprojectlist: [],
+      wikiprojectlist: [...WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE, ...WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE]
     };
   },
-  created() {
-    this.updateLanguageList();
-    this.updateProjectList();
+
+  // watch for changes in selectedProject, and calls updateLanguageList
+  watch: {
+    selectedProject: {
+      handler: 'updateLanguageList',
+      immediate: true
+    }
   },
+
   methods: {
     handleLanguageChange(modelValue) {
       this.selectedLang = modelValue;
-
-      this.updateProjectList();
     },
     handleProjectChange(modelValue) {
       this.selectedProject = modelValue;
     },
+
     async updateLanguageList() {
       res = await Object.values(apiresponse.sitematrix);
-      if (apiresponse && apiresponse.sitematrix) {
-        this.languagelist = res
-          .map((item) => {
-            return { label: item.name, value: item.code };
-          })
-          .filter(
-            (item) => item.label !== undefined && item.value !== undefined
-          );
-      } else {
-        console.error("Invalid API response format");
-      }
-    },
-    async updateProjectList() {
-      console.log("updateProjectList");
-      console.log(this.selectedLang);
+      // use try - catch here
+      if (apiresponse && apiresponse.sitematrix && this.selectedProject) {
 
-      res = await Object.values(apiresponse.sitematrix);
-      let projectListItem = res.find((item) => item.code === this.selectedLang);
+         this.languagelist = res.map(mainItem => {
 
-      let projectList = projectListItem.site;
-      if (projectList) {
-        this.wikiprojectlist = projectList
-          .map((item) => {
-            return { label: item.sitename, value: item.code };
-          })
-          .filter(
-            (item) => item.label !== undefined && item.value !== undefined
-          );
+          const matchedSite = mainItem && typeof mainItem === "object" && mainItem.site.find(item => {
+            return item.sitename.toLowerCase().trim() === this.selectedProject.toLowerCase().trim();
+          });
+          
+          if (matchedSite && typeof matchedSite === "object") {
+            return { label: mainItem.name, value: mainItem.code };
+          } else {
+            return null; 
+          }
+        }).filter(item => item !== null && item !== undefined);
       } else {
         console.error("Invalid API response format");
       }
