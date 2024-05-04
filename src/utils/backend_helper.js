@@ -91,6 +91,7 @@ const toReadableMonth = (timestamp) => {
 };
 
 const continueFetch = (url, params, list) => {
+  console.log("continueFetch", url, params, list);
   const q = new URLSearchParams(params).toString();
   let result = [];
   return cacheFetch(`${url}?${q}`).then((r) => {
@@ -157,15 +158,13 @@ const thanksSummary = async (username, year, project) => {
       getRequestConfig(username, year, project),
       "logevents"
     );
-    const thanks = await response.json();
-
     return {
-      topThanksTo: topArticles(thanks).map((u) =>
+      topThanksTo: topArticles(response).map((u) =>
         Object.assign(u, {
           title: u.title.indexOf(":") > -1 ? u.title.split(":")[1] : u.title,
         })
       ),
-      thanksCount: thanks.length,
+      thanksCount: response.length,
     };
   } catch (error) {
     console.error("Error fetching thanks summary:", error);
@@ -180,11 +179,10 @@ const thankedSummary = async (username, year, project) => {
       getRequestConfig(username, year, project),
       "logevents"
     );
-    const thanks = await response.json();
 
     return {
-      topThanksFrom: topArticles(thanks, "user"),
-      thankedCount: thanks.length,
+      topThanksFrom: topArticles(response, "user"),
+      thankedCount: response.length,
     };
   } catch (error) {
     console.error("Error fetching thanked summary:", error);

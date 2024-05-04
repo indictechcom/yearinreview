@@ -1,5 +1,8 @@
 <template>
-  <img style="width: 24%; margin: 20px auto" src="../assets/images/WP20Symbols_MediaWiki.svg" />
+  <img
+    style="width: 24%; margin: 20px auto"
+    src="../assets/images/WP20Symbols_MediaWiki.svg"
+  />
   <BaseCard :id="cardId">
     <template #bCardTop>
       <h1 class="contribution-header">Wikimedia contributions</h1>
@@ -33,9 +36,12 @@
           v-model="username"
           placeholder="Whats your username"
         ></cdx-text-input>
-        <Button buttonText="Show stats" @click="statclickhandler"
-          >Show stats</Button
-        >
+        <cdx-select
+          :menu-items="lastFiveYears"
+          :selected="previousYear"
+          @update:selected="updateYear"
+        ></cdx-select>
+        <Button buttonText="Show stats" :onClick="onSubmit" />
       </div>
     </template>
   </BaseCard>
@@ -62,7 +68,9 @@ export default {
 
   data() {
     return {
-      project: "wikipedia",
+      lastFiveYears: [],
+      previousYear: null,
+      project: null,
       selectedProject: null,
       selectedLang: "en",
       username: "",
@@ -73,8 +81,24 @@ export default {
   created() {
     this.updateLanguageList();
     this.updateProjectList();
+    let date = new Date();
+    this.lastFiveYears = [
+      { label: date.getFullYear() - 1, value: date.getFullYear() - 1 },
+      { label: date.getFullYear() - 2, value: date.getFullYear() - 2 },
+      { label: date.getFullYear() - 3, value: date.getFullYear() - 3 },
+      { label: date.getFullYear() - 4, value: date.getFullYear() - 4 },
+      { label: date.getFullYear() - 5, value: date.getFullYear() - 5 },
+    ];
   },
   methods: {
+    onSubmit() {
+      this.statclickhandler(
+        this.username,
+        this.selectedLang,
+        this.selectedProject,
+        this.previousYear
+      );
+    },
     handleLanguageChange(modelValue) {
       this.selectedLang = modelValue;
 
@@ -82,6 +106,9 @@ export default {
     },
     handleProjectChange(modelValue) {
       this.selectedProject = modelValue;
+    },
+    updateYear(modelValue) {
+      this.previousYear = modelValue;
     },
     async updateLanguageList() {
       res = await Object.values(apiresponse.sitematrix);
@@ -105,10 +132,11 @@ export default {
       let projectListItem = res.find((item) => item.code === this.selectedLang);
 
       let projectList = projectListItem.site;
+      console.log("[PROJECT SELECTED]", projectList);
       if (projectList) {
         this.wikiprojectlist = projectList
           .map((item) => {
-            return { label: item.sitename, value: item.code };
+            return { label: item.sitename, value: item.sitename };
           })
           .filter(
             (item) => item.label !== undefined && item.value !== undefined
@@ -122,27 +150,26 @@ export default {
 </script>
 <style scoped>
 .input-layout {
-	padding: 2rem;
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	gap: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
 
-	input {
-		text-align: center;
-	}
+  input {
+    text-align: center;
+  }
 
   @media only screen and (max-width: 640px) {
-      padding: 1rem;
+    padding: 1rem;
   }
 }
-.contribution-header{
+.contribution-header {
   font-weight: 300;
   margin: 10px auto;
 }
 .contribution-subheader {
   width: 90%;
   margin: 20px auto;
-  
 }
 </style>
