@@ -26,6 +26,7 @@
           :menu-items="languagelist"
           :selected="selectedLang"
           @update:selected="handleLanguageChange"
+          v-if="showLanguageDropdown"
           default-label="Choose a language"
         ></cdx-select>
         <cdx-text-input
@@ -53,8 +54,9 @@ import Button from "../components/Button.vue";
 import apiresponse from "../mocks/apiresponse.json";
 import BaseCard from "../components/cards/BaseCard";
 
-import { WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE } from "../helpers/consts";
-import { WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE} from "../helpers/consts"
+import { WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE, WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE, SCREEN_TYPE, YEAR_DROPDOWN } from "../helpers/consts";
+
+import {isLanguageSupportedProject} from "../utils/url_helper";
 
 export default {
   name: "InputTaker",
@@ -78,7 +80,9 @@ export default {
       selectedLang: "en",
       username: "",
       languagelist: [],
-      wikiprojectlist: [...WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE, ...WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE]
+      wikiprojectlist: [...WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE, ...WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE],
+      YEAR_DROPDOWN: YEAR_DROPDOWN,
+      showLanguageDropdown: false,
     };
   },
   // watch for changes in selectedProject, and calls updateLanguageList
@@ -91,13 +95,7 @@ export default {
 
   created() {
     let date = new Date();
-    this.lastFiveYears = [
-      { label: date.getFullYear() - 1, value: date.getFullYear() - 1 },
-      { label: date.getFullYear() - 2, value: date.getFullYear() - 2 },
-      { label: date.getFullYear() - 3, value: date.getFullYear() - 3 },
-      { label: date.getFullYear() - 4, value: date.getFullYear() - 4 },
-      { label: date.getFullYear() - 5, value: date.getFullYear() - 5 },
-    ];
+    this.lastFiveYears = YEAR_DROPDOWN;
   },
 
   methods: {
@@ -114,10 +112,12 @@ export default {
     },
     handleProjectChange(modelValue) {
       this.selectedProject = modelValue;
+      this.showLanguageDropdown = isLanguageSupportedProject(modelValue)
     },
     updateYear(modelValue) {
       this.previousYear = modelValue;
     },
+
     async updateLanguageList() {
       res = await Object.values(apiresponse.sitematrix);
       // use try - catch here
@@ -140,28 +140,29 @@ export default {
   },
 };
 </script>
+
 <style scoped>
-.input-layout {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: 1rem;
+  .input-layout {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
 
-  input {
-    text-align: center;
-  }
+    input {
+      text-align: center;
+    }
 
-  @media only screen and (max-width: 640px) {
-    padding: 1rem;
+    @media only screen and (max-width: 640px) {
+      padding: 1rem;
+    }
   }
-}
-.contribution-header {
-  font-weight: 300;
-  margin: 10px auto;
-}
-.contribution-subheader {
-  width: 90%;
-  margin: 20px auto;
-}
+  .contribution-header {
+    font-weight: 300;
+    margin: 10px auto;
+  }
+  .contribution-subheader {
+    width: 90%;
+    margin: 20px auto;
+  }
 </style>
