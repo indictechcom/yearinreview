@@ -40,6 +40,7 @@
         <cdx-select
           :menu-items="lastFiveYears"
           :selected="previousYear"
+          default-label="Choose year"
           @update:selected="updateYear"
         ></cdx-select>
         <Button buttonText="Show stats" :onClick="onSubmit" />

@@ -58,26 +58,27 @@ const WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE = [
 
 const YEAR_DROPDOWN = [
   {
-    label: new Date(Date.now()).getFullYear() - 1,
-    value: new Date(Date.now()).getFullYear() - 1,
+    label: (new Date(Date.now()).getFullYear() - 1).toString(),
+    value: (new Date(Date.now()).getFullYear() - 1).toString(),
   },
   {
-    label: new Date(Date.now()).getFullYear() - 2,
-    value: new Date(Date.now()).getFullYear() - 2,
+    label: (new Date(Date.now()).getFullYear() - 2).toString(),
+    value: (new Date(Date.now()).getFullYear() - 2).toString(),
   },
   {
-    label: new Date(Date.now()).getFullYear() - 3,
-    value: new Date(Date.now()).getFullYear() - 3,
+    label: (new Date(Date.now()).getFullYear() - 3).toString(),
+    value: (new Date(Date.now()).getFullYear() - 3).toString(),
   },
   {
-    label: new Date(Date.now()).getFullYear() - 4,
-    value: new Date(Date.now()).getFullYear() - 4,
+    label: (new Date(Date.now()).getFullYear() - 4).toString(),
+    value: (new Date(Date.now()).getFullYear() - 4).toString(),
   },
   {
-    label: new Date(Date.now()).getFullYear() - 5,
-    value: new Date(Date.now()).getFullYear() - 5,
+    label: (new Date(Date.now()).getFullYear() - 5).toString(),
+    value: (new Date(Date.now()).getFullYear() - 5).toString(),
   },
 ];
+
 
 const WIKI_LINK_PATTERN =
   "[^.]*.(wikivoyage|wikinews|wikiversity|wikibooks|wikiquote|wiktionary|wikifunctions|wikisource|wikipedia|mediawiki|wikidata|wikimedia).org";
