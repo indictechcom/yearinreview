@@ -131,8 +131,8 @@ const topArticles = (articles, field = "title") => {
 // Helper function to generate API request configuration
 const getRequestConfig = (username, year, project) => {
   return {
-    leend: `${year - 1}-12-31T23:59:59.000Z`,
-    lestart: `${year + 1}-01-01T00:00:00.000Z`,
+    leend: `${parseInt(year) - 1}-12-31T23:59:59.000Z`,
+    lestart: `${parseInt(year) + 1}-01-01T00:00:00.000Z`,
     maxage: CACHE_TIME,
     smaxage: CACHE_TIME,
     lelimit: 500,
@@ -252,8 +252,8 @@ const yir = (username, year, project) => {
     continueFetch(
       `https://${project}/w/api.php`,
       {
-        ucend: `${year - 1}-12-31T23:59:59.000Z`,
-        ucstart: `${year + 1}-01-01T00:00:00.000Z`,
+        ucend: `${parseInt(year) - 1}-12-31T23:59:59.000Z`,
+        ucstart: `${parseInt(year) + 1}-01-01T00:00:00.000Z`,
         uclimit: 500,
         origin: "*",
         action: "query",

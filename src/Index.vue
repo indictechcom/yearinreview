@@ -31,6 +31,7 @@ import {
   MEETING,
   FRIENDSHIP,
   COMMUNITY,
+  CARD_TYPE
 } from "./helpers/consts.js";
 
 const humanDay = (day) => {
@@ -128,6 +129,7 @@ export default {
         this.pages = [];
         if (stats.totalEdits) {
           this.pages.push({
+            type: CARD_TYPE.USER_STATS,
             image: WIKIPEDIA,
             messagePrefix: "You made",
             value: toReadable(stats.totalEdits),
@@ -136,6 +138,7 @@ export default {
           });
         } else {
           this.pages.push({
+            type: CARD_TYPE.USER_STATS,
             image: WIKIPEDIA,
             messagePrefix: "You didn't edit any Wiki project this year, but...",
             qualifier: YEAR,
@@ -145,6 +148,7 @@ export default {
         }
         if (stats.paragraphs) {
           this.pages.push({
+            type: CARD_TYPE.USER_STATS,
             image: PUZZLE,
             messagePrefix: "Editing approximately",
             value: toReadable(stats.paragraphs),
@@ -155,6 +159,7 @@ export default {
         if (stats.articleEdits > 0) {
           this.pages = this.pages.concat([
             {
+              type: CARD_TYPE.USER_STATS,
               messagePrefix: "You made",
               value: toReadable(stats.articleEdits),
               qualifier: "edits",
@@ -164,6 +169,7 @@ export default {
               )} different articles`,
             },
             {
+              type: CARD_TYPE.USER_STATS,
               messagePrefix: "You edited the most on",
               class: "smaller",
               image: PUZZLE_COLLAB,
@@ -179,6 +185,7 @@ export default {
           let topTitle = stats.top5[0].title;
           this.pages = this.pages.concat([
             {
+              type: CARD_TYPE.USER_STATS,
               messagePrefix: "You made contributions to",
               image: stats.thumbs[0],
               messageSuffix: `[[<a class="wikiLink" href="${wikiUrl(
@@ -187,6 +194,7 @@ export default {
             },
             ...stats.top5.slice(1).map((t, i) => {
               return {
+                type: CARD_TYPE.USER_STATS,
                 image: stats.thumbs[i + 1],
                 messagePrefix: "and",
                 messageSuffix: `[[<a class="wikiLink" href="${wikiUrl(
@@ -199,6 +207,7 @@ export default {
 
         if (stats.talkEdits > 0) {
           this.pages.push({
+            type: CARD_TYPE.USER_STATS,
             messagePrefix: "You contributed",
             image: MEETING,
             value: toReadable(stats.talkEdits),
@@ -212,6 +221,7 @@ export default {
           wasThanked = true;
           this.pages = this.pages.concat([
             {
+              type: CARD_TYPE.USER_STATS,
               messagePrefix: "You were appreciated by",
               image: FRIENDSHIP,
               value: toReadable(stats.thankedCount),
@@ -222,6 +232,7 @@ export default {
         if (stats.thanksCount > 0) {
           this.pages = this.pages.concat([
             {
+              type: CARD_TYPE.USER_STATS,
               messagePrefix: wasThanked
                 ? "And you showed appreciation to"
                 : "You showed appreciation to",
@@ -230,6 +241,7 @@ export default {
               qualifier: "other humans",
             },
             {
+              type: CARD_TYPE.USER_STATS,
               messagePrefix: "Thank you caring!",
               messageSuffix: "We appreciate you!",
             },
@@ -238,6 +250,7 @@ export default {
         if (stats.topThanksTo.length) {
           this.pages = this.pages.concat([
             {
+              type: CARD_TYPE.USER_STATS,
               messagePrefix: `@${stats.topThanksTo[0].title}`,
               //value: stats.topThanksTo[0].count,
               //qualifier: 'User'
@@ -249,10 +262,27 @@ export default {
         if (stats.topThanksFrom.length) {
           this.pages = this.pages.concat([
             {
+              type: CARD_TYPE.USER_STATS,
               messagePrefix: `@${stats.topThanksFrom[0].user}`,
               messageSuffix: "was your biggest fan",
             },
           ]);
+        }
+
+        if (this.pages.length > 0) {
+          this.pages = this.pages.concat([
+            {
+              type: CARD_TYPE.USER_SUMMARY,
+              messagePrefix: "@" + username,
+              messageSuffix: previousYear,
+              shareStats: {
+                  editCount: toReadable(stats.totalEdits) ?? 0,
+                  talkCount: toReadable(stats.talkEdits) ?? 0,
+                  thanksCount: toReadable(stats.thanksCount) ?? 0,
+                  thankedCount: toReadable(stats.thankedCount) ?? 0,
+              }
+            }
+          ])
         }
         // const res = JSON.parse(JSON.stringify(this.pages));
         this.cards = this.pages;

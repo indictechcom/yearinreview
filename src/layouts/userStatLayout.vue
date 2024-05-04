@@ -1,7 +1,6 @@
 <template>
 	<UserCard
 		:cardId="currentCardIndex"
-		:type="this.cards[currentCardIndex].type"
 		:cardTitle="this.cards[currentCardIndex].messagePrefix"
 		:cardEndText="this.cards[currentCardIndex].messageSuffix"
 		:cardEndLimit="this.cards.length"
@@ -29,6 +28,9 @@
 			cards: Array,
 			goNext: Function,
 			goBack: Function
+		},
+		data() {
+			console.log(this.cards)
 		}
 	}
 </script>

@@ -36,7 +36,6 @@ export default {
 	},
 	props: {
 		cardId: Number,
-		type: String,
 		cardTitle: String,
 		imageURL: String,
 		cardEndText: String,
