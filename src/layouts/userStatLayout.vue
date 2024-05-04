@@ -8,8 +8,16 @@
 		:onPreviousClick="goBack"
 	>
 		<template #userCardMiddle>
-			<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].value"> {{this.cards[currentCardIndex].value}} </div>
-			<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].qualifier"> {{this.cards[currentCardIndex].qualifier}} </div>
+			<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type === CARD_TYPE.USER_STATS">
+				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].value"> {{this.cards[currentCardIndex].value}} </div>
+				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].qualifier"> {{this.cards[currentCardIndex].qualifier}} </div>
+			</div>
+			<div v-else>
+				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].shareStats && this.cards[currentCardIndex].shareStats.editCount"> Edit count: {{this.cards[currentCardIndex].shareStats.editCount}} </div>
+				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].shareStats && this.cards[currentCardIndex].shareStats.talkCount"> Talk count: {{this.cards[currentCardIndex].shareStats.talkCount}} </div>
+				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].shareStats && this.cards[currentCardIndex].shareStats.thanksCount"> Thanks count: {{this.cards[currentCardIndex].shareStats.thanksCount}} </div>
+				<div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].shareStats && this.cards[currentCardIndex].shareStats.thankedCount"> Thanked count: {{this.cards[currentCardIndex].shareStats.thankedCount}} </div>
+			</div>
 		</template>
 	</UserCard>
 </template>
@@ -17,6 +25,8 @@
 <script>
 	import UserCard from "../components/cards/UserCard";
 	import Button from "../components/Button";
+	import { CARD_TYPE } from "../helpers/consts";
+
 	export default {
 		name: "UserStat",
 		components: {
@@ -30,15 +40,17 @@
 			goBack: Function
 		},
 		data() {
-			console.log(this.cards)
+			return {
+				CARD_TYPE
+			}
 		}
 	}
 </script>
   
 <style scoped>
 	.stat-wrapper {
-	width: 100%;
-	margin: 1rem auto;
-	padding: 2rem;
+		width: 100%;
+		margin: 1rem auto;
+		padding: 2rem;
 	}
 </style>
