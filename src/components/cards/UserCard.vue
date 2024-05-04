@@ -12,11 +12,13 @@
 				<Button 
 					buttonText="Next" 
 					:onClick="onNextClick"
+					:disabled="cardId === cardEndLimit - 1"
 				/>
 				<Button 
 					buttonText="Previous" 
 					weight="secondary" 
 					:onClick="onPreviousClick"
+					:disabled="cardId === 0"
 				/>
 			</div>
 		</template>
