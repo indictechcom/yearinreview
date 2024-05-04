@@ -21,9 +21,8 @@ import { CdxCard } from "@wikimedia/codex";
 import InputTaker from "./layouts/userInputLayout";
 import UserStat from "./layouts/userStatLayout";
 import { SCREEN_TYPE } from "./helpers/consts";
-import { CARD_TYPE } from "./helpers/consts";
+import { toRaw } from "vue";
 import helper from "./utils/backend_helper";
-import { getUserEdits } from "../src/utils/backend_helper";
 import {
   WIKIPEDIA,
   PUZZLE,
@@ -81,19 +80,12 @@ export default {
     };
   },
   methods: {
-    statclickhandler(username, selectedLang, selectedProject, previousYear) {
-      this.currentPage = SCREEN_TYPE.USER_STATS_SCREEN;
+    async statclickhandler(username, selectedLang, selectedProject, previousYear) {
+      await this.start(username, selectedLang, selectedProject, previousYear);
       this.currentCardIndex = 0;
-      console.log(
-        "[DEBUG] statclickhandler",
-        username,
-        selectedLang,
-        selectedProject,
-        previousYear
-      );
-      this.start(username, selectedLang, selectedProject, previousYear);
+      this.currentPage = SCREEN_TYPE.USER_STATS_SCREEN;
     },
-    start(username, selectedLang, selectedProject, previousYear) {
+    async start(username, selectedLang, selectedProject, previousYear) {
       let project = (
         selectedLang +
         "." +
@@ -106,7 +98,6 @@ export default {
         this.loading++;
       }, 1000);
       const err = (er) => {
-        console.log("error", er);
         this.error = true;
         this.currentPage = -1;
         clearInterval(loader);
@@ -115,7 +106,6 @@ export default {
       const statuschecker = setInterval(() => {
         this.status = helper.getStatus();
       }, 300);
-      console.log("start", username, previousYear, project);
 
       helper(username, previousYear, project).then((stats) => {
         clearInterval(loader);
@@ -269,6 +259,9 @@ export default {
             },
           ]);
         }
+        // const res = JSON.parse(JSON.stringify(this.pages));
+        this.cards = this.pages;
+        this.currentCardIndex = 0;
         this.activePage = this.pages[this.currentPage];
       }, err);
     },
@@ -289,24 +282,7 @@ export default {
       loading: false,
       currentPage: SCREEN_TYPE.USER_INPUT_SCREEN,
       currentCardIndex: -1,
-      cards: [
-        {
-          type: CARD_TYPE.USER_STATS,
-          header: "header",
-          extra: {},
-          text: "text",
-          end: "end",
-        },
-        {
-          type: CARD_TYPE.USER_SUMMARY,
-          header: "header2",
-          extra: {
-            summary: "abc",
-          },
-          text: "text2",
-          end: "end2",
-        },
-      ],
+      cards: []
     };
   },
 };

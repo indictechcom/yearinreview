@@ -119,6 +119,8 @@ export default {
       this.previousYear = modelValue;
     },
     async updateLanguageList() {
+      // the mock needs to be updated in case new languages or projects are added
+      // use cron to update api mock
       res = await Object.values(apiresponse.sitematrix);
       // use try - catch here
       if (apiresponse && apiresponse.sitematrix && this.selectedProject) {

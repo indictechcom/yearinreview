@@ -1,6 +1,7 @@
 <template>
 	<BaseCard :id="cardId">
 		<template #bCardTop>
+			<img :src="imageURL"/>
 			<p>{{ cardTitle }}</p>
 		</template>
 		<template #bCardMiddle>
@@ -37,6 +38,7 @@ export default {
 		cardId: Number,
 		type: String,
 		cardTitle: String,
+		imageURL: String,
 		cardEndText: String,
 		cardEndLimit: Number,
 		onPreviousClick: Function,
