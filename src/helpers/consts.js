@@ -50,10 +50,10 @@ const WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE = [
 ];
 
 const WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE = [
-  { label: "Wikimedia Commons", value: "commons" },
+  { label: "Wikimedia Commons", value: "commons.wikimedia" },
   { label: "Wikidata", value: "wikidata" },
   { label: "MediaWiki", value: "mediawiki" },
-  { label: "Meta", value: "meta" },
+  { label: "Meta", value: "meta.wikimedia" },
 ];
 
 const YEAR_DROPDOWN = [
@@ -78,7 +78,6 @@ const YEAR_DROPDOWN = [
     value: (new Date(Date.now()).getFullYear() - 5).toString(),
   },
 ];
-
 
 const WIKI_LINK_PATTERN =
   "[^.]*.(wikivoyage|wikinews|wikiversity|wikibooks|wikiquote|wiktionary|wikifunctions|wikisource|wikipedia|mediawiki|wikidata|wikimedia).org";

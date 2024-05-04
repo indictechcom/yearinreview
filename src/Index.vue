@@ -86,12 +86,7 @@ export default {
       this.currentPage = SCREEN_TYPE.USER_STATS_SCREEN;
     },
     async start(username, selectedLang, selectedProject, previousYear) {
-      let project = (
-        selectedLang +
-        "." +
-        selectedProject +
-        ".org"
-      ).toLowerCase();
+      let project = (selectedLang && selectedLang + ".") + selectedProject + ".org".toLowerCase();
 
       this.currentPage = 0;
       const loader = setInterval(() => {

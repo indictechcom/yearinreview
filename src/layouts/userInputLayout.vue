@@ -15,7 +15,6 @@
       <div class="input-layout">
         <cdx-select
           required
-          :disabled="!selectedLang"
           :selected="selectedProject"
           :menu-items="wikiprojectlist"
           @update:selected="handleProjectChange"
@@ -82,18 +81,22 @@ export default {
       previousYear: null,
       project: null,
       selectedProject: null,
-      selectedLang: "en",
       username: "",
       languagelist: [],
       wikiprojectlist: [...WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE, ...WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE],
       YEAR_DROPDOWN: YEAR_DROPDOWN,
       showLanguageDropdown: false,
+      selectedLang: this.showLanguageDropdown ? "en": '',
     };
   },
   // watch for changes in selectedProject, and calls updateLanguageList
   watch: {
     selectedProject: {
       handler: 'updateLanguageList',
+      immediate: true
+    },
+    showLanguageDropdown:{
+      handler: 'updateLanguageDefaultStatus',
       immediate: true
     }
   },
@@ -121,6 +124,9 @@ export default {
     },
     updateYear(modelValue) {
       this.previousYear = modelValue;
+    },
+    updateLanguageDefaultStatus(){
+      this.selectedLang = this.showLanguageDropdown ? "en": ''
     },
 
     async updateLanguageList() {
