@@ -1,11 +1,9 @@
 <template>
   <div class="wrapper">
-      <!-- first screen -->
-      <input-taker
-        :statclickhandler="statclickhandler"
-        v-if="currentPage === 'inputTaker'"
-      ></input-taker>
-    <!-- second screen -->
+    <input-taker
+      :statclickhandler="statclickhandler"
+      v-if="currentPage === 'inputTaker'"
+    ></input-taker>
     <user-stat v-if="currentPage === 'userStat'"></user-stat>
   </div>
 </template>
