@@ -142,7 +142,7 @@ export default {
         } else {
           this.pages.push({
             image: WIKIPEDIA,
-            messagePrefix: "You didn't edit this project this year, but...",
+            messagePrefix: "You didn't edit any Wiki project this year, but...",
             qualifier: YEAR,
             messageSuffix:
               "is another year to contribute to the sum of all human knowledge!",
@@ -250,7 +250,7 @@ export default {
             },
           ]);
         }
-        console.log(stats);
+        
         if (stats.topThanksFrom.length) {
           this.pages = this.pages.concat([
             {

@@ -91,7 +91,6 @@ const toReadableMonth = (timestamp) => {
 };
 
 const continueFetch = (url, params, list) => {
-  console.log("continueFetch", url, params, list);
   const q = new URLSearchParams(params).toString();
   let result = [];
   return cacheFetch(`${url}?${q}`).then((r) => {
