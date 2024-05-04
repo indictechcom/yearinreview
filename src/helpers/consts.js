@@ -37,6 +37,7 @@ const COMMUNITY = {
   ...BASIC_CONFIG,
 };
 
+// dropdown helpers
 const WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE = [
   { label: "Wikipedia", value: "wikipedia" },
   { label: "Wiktionary", value: "wiktionary" },
@@ -53,6 +54,29 @@ const WIKIMEDIA_COMMONS_DROPDOWN_WITHOUT_LANGUAGE = [
   { label: "Wikidata", value: "wikidata" },
   { label: "MediaWiki", value: "mediawiki" },
   { label: "Meta", value: "meta" },
+];
+
+const YEAR_DROPDOWN = [
+  {
+    label: new Date(Date.now()).getFullYear() - 1,
+    value: new Date(Date.now()).getFullYear() - 1,
+  },
+  {
+    label: new Date(Date.now()).getFullYear() - 2,
+    value: new Date(Date.now()).getFullYear() - 2,
+  },
+  {
+    label: new Date(Date.now()).getFullYear() - 3,
+    value: new Date(Date.now()).getFullYear() - 3,
+  },
+  {
+    label: new Date(Date.now()).getFullYear() - 4,
+    value: new Date(Date.now()).getFullYear() - 4,
+  },
+  {
+    label: new Date(Date.now()).getFullYear() - 5,
+    value: new Date(Date.now()).getFullYear() - 5,
+  },
 ];
 
 const WIKI_LINK_PATTERN =
@@ -85,4 +109,5 @@ export {
   USERNAME_PATTERN,
   CARD_TYPE,
   SCREEN_TYPE,
+  YEAR_DROPDOWN,
 };
