@@ -2,8 +2,9 @@
   <div v-if = "isLoading">
     <FullScreenLoader />
   </div>
-  <div class="wrapper">
-    <div v-if = "error">
+  <div class="set-color">
+    <div class="wrapper">
+      <div v-if = "error">
       <EmptyState />
     </div>
     <div v-else>
@@ -21,6 +22,7 @@
         :copyToClipboard="copyToClipboard"
       :cards="cards"
       />
+    </div>
     </div>
   </div>
 </template>
@@ -72,6 +74,7 @@ const LAST_FIVE = [YEAR - 1, YEAR - 2, YEAR - 3, YEAR - 4, YEAR - 5].map(
     value: year,
   })
 );
+
 
 export default {
   name: "Index",
@@ -131,6 +134,7 @@ export default {
           this.pages.push({
             type: CARD_TYPE.USER_STATS,
             image: WIKIPEDIA,
+            backgroundColor: "#f7b0ce",
             messagePrefix: "You made",
             value: toReadable(stats.totalEdits),
             qualifier: "edits",
@@ -140,6 +144,7 @@ export default {
           this.pages.push({
             type: CARD_TYPE.USER_STATS,
             image: WIKIPEDIA,
+            backgroundColor: "#f7b0ce",
             messagePrefix: "You didn't edit any Wiki project this year, but...",
             qualifier: YEAR,
             messageSuffix:
@@ -150,6 +155,7 @@ export default {
           this.pages.push({
             type: CARD_TYPE.USER_STATS,
             image: WIKIPEDIA_KNOWLEDGE,
+            backgroundColor: "#7dd3a4",
             messagePrefix: "Editing approximately",
             value: toReadable(stats.paragraphs),
             qualifier: "paragraphs",
@@ -163,6 +169,7 @@ export default {
               messagePrefix: "You made",
               value: toReadable(stats.articleEdits),
               qualifier: "edits",
+              backgroundColor: "#f8d866",
               image: PEN_PAPER,
               messageSuffix: `in ${toReadable(
                 stats.articlesNumber
@@ -173,6 +180,7 @@ export default {
               messagePrefix: "You edited the most on",
               class: "smaller",
               image: PUZZLE_COLLAB,
+              backgroundColor: "#86847f",
               value: humanDay(parseInt(topDay.day, 10)),
               messageSuffix: `${topDay.count} edits`,
             },
@@ -188,6 +196,7 @@ export default {
               type: CARD_TYPE.USER_STATS,
               messagePrefix: "You made contributions to",
               image: stats.thumbs[0],
+              backgroundColor: "#86847f",
               messageSuffix: `[[<a class="wikiLink" href="${wikiUrl(
                 topTitle
               )}">${topTitle}</a>]]`,
@@ -196,6 +205,7 @@ export default {
               return {
                 type: CARD_TYPE.USER_STATS,
                 image: stats.thumbs[i + 1],
+                backgroundColor: "#86847f",
                 messagePrefix: "and",
                 messageSuffix: `[[<a class="wikiLink" href="${wikiUrl(
                   t.title
@@ -210,6 +220,7 @@ export default {
             type: CARD_TYPE.USER_STATS,
             messagePrefix: "You contributed",
             image: MEETING,
+            backgroundColor: "#ad8056",
             value: toReadable(stats.talkEdits),
             qualifier: "times",
             messageSuffix: "to discussions.",
@@ -287,18 +298,25 @@ export default {
           ])
         }
         // const res = JSON.parse(JSON.stringify(this.pages));
-        this.cards = this.pages;
+        this.cards = this.pages
         this.currentCardIndex = 0;
+        const divToColor = document.querySelector(".set-color");
+        divToColor.style.backgroundColor = this.pages[this.currentCardIndex].backgroundColor;
         this.activePage = this.pages[this.currentPage];
       }, err)
     },
     goNext() {
-      if (this.currentCardIndex < this.cards.length - 1)
+      if (this.currentCardIndex < this.cards.length - 1){
         this.currentCardIndex += 1;
+        const divToColor = document.querySelector(".set-color");
+        divToColor.style.backgroundColor = this.pages[this.currentCardIndex].backgroundColor;
+      }
     },
     goBack() {
       if (this.currentCardIndex > 0) {
         this.currentCardIndex -= 1;
+        const divToColor = document.querySelector(".set-color");
+        divToColor.style.backgroundColor = this.pages[this.currentCardIndex].backgroundColor;
       }
     },
     async copyToClipboard() {
@@ -386,3 +404,6 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+</style>

@@ -189,4 +189,5 @@ export default {
   .stat-card-image {
     width: 50%;
   }
+  
 </style>
