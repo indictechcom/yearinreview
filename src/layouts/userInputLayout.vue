@@ -1,11 +1,10 @@
 <template>
-  <div class="input-layout-parent">
-    <img
-      style="width: 24%; margin: 20px auto"
-      src="../assets/images/WP20Symbols_MediaWiki.svg"
-    />
     <BaseCard :id="cardId">
       <template #bCardTop>
+        <img
+          class="stat-card-image"
+          src="../assets/images/Wikipedia20_hashflag.svg"
+        />
         <h1 class="contribution-header">Wikimedia contributions</h1>
         <p class="contribution-subheader">
           Let's look back at all the good work you have been doing this year in
@@ -51,7 +50,6 @@
         </div>
       </template>
     </BaseCard>
-  </div>
 </template>
 <script>
 import { CdxTextInput, CdxButton, CdxSelect } from "@wikimedia/codex";
@@ -189,6 +187,6 @@ export default {
   }
 
   .stat-card-image {
-    width: 60%;
+    width: 50%;
   }
 </style>
