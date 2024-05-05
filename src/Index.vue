@@ -198,9 +198,7 @@ export default {
               messagePrefix: "You made contributions to",
               image: stats.thumbs[0],
               backgroundColor: "#86847f",
-              messageSuffix: `[[<a class="wikiLink" href="${wikiUrl(
-                topTitle
-              )}">${topTitle}</a>]]`,
+              messageSuffix: topTitle,
             },
             ...stats.top5.slice(1).map((t, i) => {
               return {
@@ -208,9 +206,7 @@ export default {
                 image: stats.thumbs[i + 1],
                 backgroundColor: "#86847f",
                 messagePrefix: "and",
-                messageSuffix: `[[<a class="wikiLink" href="${wikiUrl(
-                  t.title
-                )}">${t.title}</a>]]`,
+                messageSuffix: t.title,
               };
             }),
           ]);
