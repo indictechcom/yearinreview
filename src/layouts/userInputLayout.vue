@@ -1,17 +1,17 @@
 <template>
-  <img
-    style="width: 24%; margin: 20px auto"
-    src="../assets/images/Wikipedia20_hashflag.svg"
-  />
   <BaseCard :id="cardId">
     <template #bCardTop>
+      <img
+      class="stat-card-image"
+    src="../assets/images/Wikipedia20_hashflag.svg"
+  />
       <h1 class="contribution-header">Wikimedia contributions</h1>
       <p class="contribution-subheader">
         Let's look back at all the good work you have been doing this year in
         helping build the best place on the Internet!
       </p>
     </template>
-    <template #bCardMiddle>
+    <template #bCardMiddle> 
       <div class="input-layout">
         <cdx-select
           required
@@ -177,5 +177,9 @@ export default {
   .contribution-subheader {
     width: 90%;
     margin: 20px auto;
+  }
+
+  .stat-card-image {
+    width: 60%;
   }
 </style>
