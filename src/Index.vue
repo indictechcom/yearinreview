@@ -278,7 +278,7 @@ export default {
               type: CARD_TYPE.USER_SUMMARY,
               messagePrefix: "@" + username,
               messageSuffix: previousYear,
-              image: COMMUNITY,
+              image: PUZZLE,
               shareStats: {
                   project: this.project,
                   editCount: toReadable(stats.totalEdits) ?? 0,
