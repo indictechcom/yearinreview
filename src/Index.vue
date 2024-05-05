@@ -31,7 +31,10 @@ import {
   MEETING,
   FRIENDSHIP,
   COMMUNITY,
-  CARD_TYPE
+  CARD_TYPE,
+  WIKIPEDIA_KNOWLEDGE,
+  WIKIPEDIA_HASHFLAG,
+  WIKIPEDIA_MOONCYCLE
 } from "./helpers/consts.js";
 
 const humanDay = (day) => {
@@ -88,7 +91,7 @@ export default {
     },
     async start(username, selectedLang, selectedProject, previousYear) {
       let project = (selectedLang && selectedLang + ".") + selectedProject + ".org".toLowerCase();
-
+      this.project = project;
       this.currentPage = 0;
       const loader = setInterval(() => {
         this.loading++;
@@ -149,7 +152,7 @@ export default {
         if (stats.paragraphs) {
           this.pages.push({
             type: CARD_TYPE.USER_STATS,
-            image: PUZZLE,
+            image: WIKIPEDIA_KNOWLEDGE,
             messagePrefix: "Editing approximately",
             value: toReadable(stats.paragraphs),
             qualifier: "paragraphs",
@@ -275,7 +278,9 @@ export default {
               type: CARD_TYPE.USER_SUMMARY,
               messagePrefix: "@" + username,
               messageSuffix: previousYear,
+              image: COMMUNITY,
               shareStats: {
+                  project: this.project,
                   editCount: toReadable(stats.totalEdits) ?? 0,
                   talkCount: toReadable(stats.talkEdits) ?? 0,
                   thanksCount: toReadable(stats.thanksCount) ?? 0,

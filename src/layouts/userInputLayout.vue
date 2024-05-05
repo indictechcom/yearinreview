@@ -1,7 +1,7 @@
 <template>
   <img
     style="width: 24%; margin: 20px auto"
-    src="../assets/images/WP20Symbols_MediaWiki.svg"
+    src="../assets/images/Wikipedia20_hashflag.svg"
   />
   <BaseCard :id="cardId">
     <template #bCardTop>

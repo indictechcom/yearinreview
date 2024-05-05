@@ -37,6 +37,21 @@ const COMMUNITY = {
   ...BASIC_CONFIG,
 };
 
+const WIKIPEDIA_HASHFLAG = {
+  source: `${BASE_URL_WIKI_IMAGES}/f/f5/Wikipedia20_hashflag.svg`,
+  ...BASIC_CONFIG,
+};
+
+const WIKIPEDIA_MOONCYCLE = {
+  source: `${BASE_URL_WIKI_IMAGES}/6/68/WP20Symbols_MoonCycle.svg`,
+  ...BASIC_CONFIG,
+};
+
+const WIKIPEDIA_KNOWLEDGE = {
+  source: `${BASE_URL_WIKI_IMAGES}/f/f1/Wikipedia20_Knowledge.svg`,
+  ...BASIC_CONFIG,
+};
+
 // dropdown helpers
 const WIKIMEDIA_COMMONS_DROPDOWN_WITH_LANGUAGE = [
   { label: "Wikipedia", value: "wikipedia" },
@@ -110,4 +125,7 @@ export {
   CARD_TYPE,
   SCREEN_TYPE,
   YEAR_DROPDOWN,
+  WIKIPEDIA_KNOWLEDGE,
+  WIKIPEDIA_HASHFLAG,
+  WIKIPEDIA_MOONCYCLE,
 };
