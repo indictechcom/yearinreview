@@ -23,14 +23,6 @@ export default {
   text-align: center;
   width: 50%;
 
-  img {
-    width: 40%;
-
-    @media only screen and (max-width: 640px) {
-      width: 50%;
-    }
-  }
-
   @media only screen and (max-width: 640px) {
     width: 80%;
     padding: 2rem 10px;
