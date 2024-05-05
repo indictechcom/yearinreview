@@ -44,13 +44,13 @@
 			<Button 
 				buttonText="Next"
 				:onClick="goNext"
-				:disabled="currentCardIndex === this.cards.length - 1"
+				v-if="currentCardIndex != this.cards.length - 1"
 			/>
 			<Button 
 				buttonText="Previous" 
 				weight="normal"
 				:onClick="goBack"
-				:disabled="currentCardIndex === 0"
+				v-if="currentCardIndex != 0"
 			/>
 		</div>
 		<Button weight="normal" v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type === CARD_TYPE.USER_SUMMARY" :onClick="copyToClipboard" buttonText="Share as text" />
@@ -62,12 +62,15 @@
 	import UserCard from "../components/cards/UserCard";
 	import Button from "../components/Button";
 	import { CARD_TYPE } from "../helpers/consts";
+	import { CdxIcon } from '@wikimedia/codex';
+	import { cdxIconEdit, cdxIconMessage, cdxIconUserTalk } from '@wikimedia/codex-icons';
 
 	export default {
 		name: "UserStat",
 		components: {
 			UserCard,
-			Button
+			Button,
+			CdxIcon
 		},
 		props: {
 			currentCardIndex: Number,
@@ -75,6 +78,13 @@
 			goNext: Function,
 			goBack: Function,
 			copyToClipboard: Function
+		},
+		setup() {
+			return {
+				cdxIconEdit,
+				cdxIconMessage,
+				cdxIconUserTalk
+			}
 		},
 		data() {
 			return {
