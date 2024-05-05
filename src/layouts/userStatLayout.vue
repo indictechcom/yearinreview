@@ -17,31 +17,22 @@
 		</div>
 		<div v-else style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
 		  <div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].shareStats && this.cards[currentCardIndex].shareStats.editCount" class="stat-item">
-			<cdx-button action="destructive">
 			  <cdx-icon :icon="cdxIconEdit" />
-			</cdx-button>
-			<br/>
+			<br/><br/>
 			{{this.cards[currentCardIndex].shareStats.editCount}} Edits
 		  </div>
 		  <div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].shareStats && this.cards[currentCardIndex].shareStats.talkCount" class="stat-item">
-			<cdx-button action="destructive">
-			  <cdx-icon :icon="cdxIconEdit" />
-			</cdx-button>
-			<br/>
-			{{this.cards[currentCardIndex].shareStats.talkCount}} talk page edits
+			<cdx-icon :icon="cdxIconMessage" /><br /><br/>
+			{{this.cards[currentCardIndex].shareStats.talkCount}} <span style="padding-top: 5px">talk page edits</span>
 		  </div>
 		  <div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].shareStats && this.cards[currentCardIndex].shareStats.thanksCount" class="stat-item">
-			<cdx-button action="destructive">
-			  <cdx-icon :icon="cdxIconEdit" />
-			</cdx-button>
-			<br/>
+			  <cdx-icon :icon="cdxIconUserTalk" />
+			<br/><br />
 			{{this.cards[currentCardIndex].shareStats.thanksCount}} thanks
 		  </div>
 		  <div v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].shareStats && this.cards[currentCardIndex].shareStats.thankedCount" class="stat-item">
-			<cdx-button action="destructive">
-			  <cdx-icon :icon="cdxIconEdit" />
-			</cdx-button>
-			<br/>
+			  <cdx-icon :icon="cdxIconUserTalk" />
+			<br/><br />
 			{{this.cards[currentCardIndex].shareStats.thankedCount}} thanked
 		  </div>
 		</div>
