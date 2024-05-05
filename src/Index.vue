@@ -11,6 +11,7 @@
       :currentCardIndex="currentCardIndex"
       :goNext="goNext"
       :goBack="goBack"
+      :copyToClipboard="copyToClipboard"
       :cards="cards"
     />
   </div>
@@ -36,6 +37,7 @@ import {
   WIKIPEDIA_HASHFLAG,
   WIKIPEDIA_MOONCYCLE
 } from "./helpers/consts.js";
+import * as htmlToImage from "html-to-image";
 
 const humanDay = (day) => {
   return [
@@ -303,6 +305,77 @@ export default {
       if (this.currentCardIndex > 0) {
         this.currentCardIndex -= 1;
       }
+    },
+    async copyToClipboard() {
+      const SHARE_TEXT = `Here is how I have been contributing to Wikipedia in ${PREVIOUS_YEAR}!`;
+      const share = (blob) => {
+        let msg = "";
+        try {
+          navigator.clipboard.write([
+            new ClipboardItem({
+              "image/png": blob,
+            }),
+          ]);
+          msg = "An image has been shared to your clipboard.";
+        } catch (error) {
+          console.log("ERROR1: ", error)
+          // pass.
+          try {
+            navigator.clipboard.writeText(
+              `${SHARE_TEXT} Edits: 10, Discussions: 1, Thanks: 2, Thanked: 4 #wikipediaYIR`
+            );
+            msg = "Text has been shared to your clipboard.";
+          } catch (error) {
+            console.log("ERROR2: ", error)
+            console.log("clipboard text error", error);
+          }
+        }
+        if (navigator.share) {
+          const file = new File([blob], "share.png", blob);
+          if (navigator.canShare({ files: [file] })) {
+            const shareData = {
+              title: `Wikipedia Year In Review (${PREVIOUS_YEAR})`,
+              text: SHARE_TEXT,
+              files: [file],
+              url: `https://${location.host}`,
+            };
+            return navigator.share(shareData).then(
+              () => msg,
+              (err) => {
+                console.log("share error", err);
+              }
+            );
+          }
+        }
+        return msg ? Promise.resolve(msg) : Promise.reject();
+      };
+      this.error = false;
+      this.feedback = "";
+      const node = document.querySelector(".share-stat-box");
+      try {
+        const res = await htmlToImage
+        .toBlob(node); 
+      } catch (error) {
+        console.log("ERROR3: ", error)
+      }
+      console.log("DEBUG: ", res)
+      htmlToImage
+        .toBlob(node)
+        .then((blob) => {
+          share(blob).then(
+            (msg) => {
+              this.feedback = msg;
+              this.error = false;
+            },
+            (err) => {
+              console.log(err);
+              this.error = true;
+            }
+          );
+        })
+        .catch(function (error) {
+          this.error = true;
+        });
     },
   },
   data() {

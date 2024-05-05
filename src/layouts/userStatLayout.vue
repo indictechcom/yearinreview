@@ -1,5 +1,6 @@
 <template>
 	<UserCard
+	  :type="this.cards[currentCardIndex] && this.cards[currentCardIndex].type"
 	  :cardId="currentCardIndex"
 	  :imageURL="this.cards[currentCardIndex] && this.cards[currentCardIndex].image ? this.cards[currentCardIndex].image.source : ''"
 	  :cardTitle="this.cards[currentCardIndex] && this.cards[currentCardIndex].messagePrefix ? this.cards[currentCardIndex].messagePrefix : ''"
@@ -47,49 +48,69 @@
 		<p v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type !== CARD_TYPE.USER_STATS">Generate your own Year in Review at <a href="https://yearinreview.toolforge.org/"> yearinreview.toolforge.org</a></p>
 	  </template>
 	</UserCard>
-  </template>
-  
-  <script>
-  import UserCard from "../components/cards/UserCard";
-  import Button from "../components/Button";
-  import { CARD_TYPE } from "../helpers/consts";
-  import { CdxIcon } from '@wikimedia/codex';
-  import { cdxIconEdit } from '@wikimedia/codex-icons';
-  import USER_STATS_IMAGE from "../assets/images/WP20Symbols_MediaWiki.svg";
+	<div class="buttons-area">
+		<div class="card-nav-buttons">
+			<Button 
+				buttonText="Next"
+				:onClick="goNext"
+				:disabled="currentCardIndex === this.cards.length - 1"
+			/>
+			<Button 
+				buttonText="Previous" 
+				weight="normal"
+				:onClick="goBack"
+				:disabled="currentCardIndex === 0"
+			/>
+		</div>
+		<Button weight="normal" v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type === CARD_TYPE.USER_SUMMARY" :onClick="copyToClipboard" buttonText="Share as text" />
+		<Button weight="normal" v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type === CARD_TYPE.USER_SUMMARY" buttonText="Download image" />
+	</div>
+</template>
 
-  export default {
-	name: "UserStat",
-	components: {
-	  UserCard,
-	  Button,
-	  CdxIcon
-	},
-	setup() {
-	  return {
-		cdxIconEdit,
-		USER_STATS_IMAGE
-	  };
-	},
-	props: {
-	  currentCardIndex: Number,
-	  cards: Array,
-	  goNext: Function,
-	  goBack: Function
-	},
-	data() {
-	  return {
-		CARD_TYPE
-	  }
+<script>
+	import UserCard from "../components/cards/UserCard";
+	import Button from "../components/Button";
+	import { CARD_TYPE } from "../helpers/consts";
+
+	export default {
+		name: "UserStat",
+		components: {
+			UserCard,
+			Button
+		},
+		props: {
+			currentCardIndex: Number,
+			cards: Array,
+			goNext: Function,
+			goBack: Function,
+			copyToClipboard: Function
+		},
+		data() {
+			return {
+				CARD_TYPE
+			}
+		}
 	}
-  }
   </script>
   
-  <style scoped>
+<style scoped>
+	.buttons-area {
+		width: 50%;
+		margin: 0 auto;
+		padding: 1rem;
 
-  .stat-item {
-	padding: 10px;
-	/* border: 1px solid #ccc; */
-	border-radius: 5px;
-  }
-  </style>
-  
+		button {
+			margin: 10px 0;
+		}
+	}
+	.card-nav-buttons {
+		margin: 0 auto;
+		justify-content: center;
+		gap: 10px;
+	}
+	.stat-wrapper {
+		width: 100%;
+		margin: 1rem auto;
+		padding: 2rem;
+	}
+</style>
