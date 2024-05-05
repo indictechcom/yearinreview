@@ -1,19 +1,27 @@
 <template>
+  <div v-if = "isLoading">
+    <FullScreenLoader />
+  </div>
   <div class="wrapper">
-    <!-- first screen -->
-    <input-taker
-      v-if="currentPage === SCREEN_TYPE.USER_INPUT_SCREEN"
-      :statclickhandler="statclickhandler"
-    />
-    <!-- second screen -->
-    <user-stat
-      v-if="currentPage === SCREEN_TYPE.USER_STATS_SCREEN"
-      :currentCardIndex="currentCardIndex"
-      :goNext="goNext"
-      :goBack="goBack"
-      :copyToClipboard="copyToClipboard"
+    <div v-if = "error">
+      <EmptyState />
+    </div>
+    <div v-else>
+      <!-- first screen -->
+      <input-taker
+        v-if="currentPage === SCREEN_TYPE.USER_INPUT_SCREEN"
+        :statclickhandler="statclickhandler"
+      />
+      <!-- second screen -->
+      <user-stat
+        v-if="currentPage === SCREEN_TYPE.USER_STATS_SCREEN"
+        :currentCardIndex="currentCardIndex"
+        :goNext="goNext"
+        :goBack="goBack"
+        :copyToClipboard="copyToClipboard"
       :cards="cards"
-    />
+      />
+    </div>
   </div>
 </template>
 
@@ -22,8 +30,8 @@ import { CdxCard } from "@wikimedia/codex";
 import InputTaker from "./layouts/userInputLayout";
 import UserStat from "./layouts/userStatLayout";
 import { SCREEN_TYPE } from "./helpers/consts";
-import { toRaw } from "vue";
 import helper from "./utils/backend_helper";
+
 import {
   WIKIPEDIA,
   PUZZLE,
@@ -37,6 +45,8 @@ import {
   WIKIPEDIA_HASHFLAG,
   WIKIPEDIA_MOONCYCLE
 } from "./helpers/consts.js";
+import FullScreenLoader from "./components/FullScreenLoader.vue";
+import EmptyState from "./components/EmptyState.vue";
 import * as htmlToImage from "html-to-image";
 
 const humanDay = (day) => {
@@ -69,21 +79,8 @@ export default {
     InputTaker,
     UserStat,
     CdxCard,
-  },
-  data() {
-    return {
-      nextYear: YEAR,
-      feedback: "",
-      loading: 0,
-      status: "",
-      error: false,
-      editCount: 0,
-      activePage: null,
-      currentPage: -1,
-      pages: [],
-      project: "",
-      username: "",
-    };
+    FullScreenLoader,
+    EmptyState
   },
   methods: {
     async statclickhandler(username, selectedLang, selectedProject, previousYear) {
@@ -95,23 +92,21 @@ export default {
       let project = (selectedLang && selectedLang + ".") + selectedProject + ".org".toLowerCase();
       this.project = project;
       this.currentPage = 0;
-      const loader = setInterval(() => {
-        this.loading++;
-      }, 1000);
+      this.isLoading = true;
       const err = (er) => {
+        /** TODO: check for user existence by integrating an api, and throw the error state then */
         this.error = true;
         this.currentPage = -1;
-        clearInterval(loader);
-        this.loading = 0;
+        this.isLoading = false;
+        return false
       };
       const statuschecker = setInterval(() => {
         this.status = helper.getStatus();
       }, 300);
 
       helper(username, previousYear, project).then((stats) => {
-        clearInterval(loader);
         clearInterval(statuschecker);
-        this.loading = 0;
+        this.isLoading = false;
         this.editCount = stats.totalEdits;
         this.talkCount = stats.talkEdits;
         this.thanksCount = stats.thanksCount;
@@ -295,7 +290,7 @@ export default {
         this.cards = this.pages;
         this.currentCardIndex = 0;
         this.activePage = this.pages[this.currentPage];
-      }, err);
+      }, err)
     },
     goNext() {
       if (this.currentCardIndex < this.cards.length - 1)
@@ -382,7 +377,8 @@ export default {
     // api call here
     return {
       SCREEN_TYPE: SCREEN_TYPE,
-      loading: false,
+      isLoading: false,
+      error: false,
       currentPage: SCREEN_TYPE.USER_INPUT_SCREEN,
       currentCardIndex: -1,
       cards: []

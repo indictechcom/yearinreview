@@ -1,55 +1,57 @@
 <template>
-  <BaseCard :id="cardId">
-    <template #bCardTop>
-      <img
-      class="stat-card-image"
-    src="../assets/images/Wikipedia20_hashflag.svg"
-  />
-      <h1 class="contribution-header">Wikimedia contributions</h1>
-      <p class="contribution-subheader">
-        Let's look back at all the good work you have been doing this year in
-        helping build the best place on the Internet!
-      </p>
-    </template>
-    <template #bCardMiddle> 
-      <div class="input-layout">
-        <cdx-select
-          required
-          :selected="selectedProject"
-          :menu-items="wikiprojectlist"
-          @update:selected="handleProjectChange"
-          default-label="Choose project"
-        />
-        <cdx-select
-          required
-          :menu-items="languagelist"
-          :selected="selectedLang"
-          @update:selected="handleLanguageChange"
-          v-if="showLanguageDropdown"
-          default-label="Choose a language"
-        ></cdx-select>
-        <cdx-text-input
-          required
-          :disabled="!selectedProject"
-          pattern="^[^:]+$"
-          type="text"
-          v-model="username"
-          placeholder="Whats your username"
-        ></cdx-text-input>
-        <cdx-select
-          :menu-items="lastFiveYears"
-          :selected="previousYear"
-          default-label="Choose year"
-          @update:selected="updateYear"
-        ></cdx-select>
-        <Button 
-          buttonText="Show stats" 
-          :onClick="onSubmit"
-          :isDisabled="!selectedProject || !username || !previousYear"
-        />
-      </div>
-    </template>
-  </BaseCard>
+  <div class="input-layout-parent">
+    <img
+      style="width: 24%; margin: 20px auto"
+      src="../assets/images/WP20Symbols_MediaWiki.svg"
+    />
+    <BaseCard :id="cardId">
+      <template #bCardTop>
+        <h1 class="contribution-header">Wikimedia contributions</h1>
+        <p class="contribution-subheader">
+          Let's look back at all the good work you have been doing this year in
+          helping build the best place on the Internet!
+        </p>
+      </template>
+      <template #bCardMiddle>
+        <div class="input-layout">
+          <cdx-select
+            required
+            :selected="selectedProject"
+            :menu-items="wikiprojectlist"
+            @update:selected="handleProjectChange"
+            default-label="Choose project"
+          />
+          <cdx-select
+            required
+            :menu-items="languagelist"
+            :selected="selectedLang"
+            @update:selected="handleLanguageChange"
+            v-if="showLanguageDropdown"
+            default-label="Choose a language"
+          ></cdx-select>
+          <cdx-text-input
+            required
+            :disabled="!selectedProject"
+            pattern="^[^:]+$"
+            type="text"
+            v-model="username"
+            placeholder="Whats your username"
+          ></cdx-text-input>
+          <cdx-select
+            :menu-items="lastFiveYears"
+            :selected="previousYear"
+            default-label="Choose year"
+            @update:selected="updateYear"
+          ></cdx-select>
+          <Button 
+            buttonText="Show stats" 
+            :onClick="onSubmit"
+            :isDisabled="!selectedProject || !username || !previousYear"
+          />
+        </div>
+      </template>
+    </BaseCard>
+  </div>
 </template>
 <script>
 import { CdxTextInput, CdxButton, CdxSelect } from "@wikimedia/codex";
@@ -132,22 +134,24 @@ export default {
     async updateLanguageList() {
       // the mock needs to be updated in case new languages or projects are added
       // use cron to update api mock
-      res = await Object.values(apiresponse.sitematrix);
-      // use try - catch here
-      if (apiresponse && apiresponse.sitematrix && this.selectedProject) {
-         this.languagelist = res.map(mainItem => {
-          const matchedSite = mainItem && typeof mainItem === "object" && mainItem.site.find(item => {
-            return item.sitename.toLowerCase().trim() === this.selectedProject.toLowerCase().trim();
-          });
-          
-          if (matchedSite && typeof matchedSite === "object") {
-            return { label: mainItem.name, value: mainItem.code };
-          } else {
-            return null; 
-          }
-        }).filter(item => item !== null && item !== undefined);
-      } else {
-        console.error("Invalid API response format");
+      try{
+        res = await Object.values(apiresponse.sitematrix);
+
+        if (apiresponse && apiresponse.sitematrix && this.selectedProject) {
+          this.languagelist = res.map(mainItem => {
+            const matchedSite = mainItem && typeof mainItem === "object" && mainItem.site.find(item => {
+              return item.sitename.toLowerCase().trim() === this.selectedProject.toLowerCase().trim();
+            });
+            
+            if (matchedSite && typeof matchedSite === "object") {
+              return { label: mainItem.name, value: mainItem.code };
+            } else {
+              return null; 
+            }
+          }).filter(item => item !== null && item !== undefined);
+        }
+      } catch(e) {
+        console.error("Invalid API response format", e);
       }
     },
   },
@@ -177,6 +181,11 @@ export default {
   .contribution-subheader {
     width: 90%;
     margin: 20px auto;
+  }
+
+  .input-layout-parent{
+    display: flex;
+    flex-direction: column;
   }
 
   .stat-card-image {
