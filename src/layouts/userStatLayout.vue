@@ -53,8 +53,7 @@
 				v-if="currentCardIndex != 0"
 			/>
 		</div>
-		<Button weight="normal" v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type === CARD_TYPE.USER_SUMMARY" :onClick="copyToClipboard" buttonText="Share as text" />
-		<Button weight="normal" v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type === CARD_TYPE.USER_SUMMARY" buttonText="Download image" />
+		<Button v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type === CARD_TYPE.USER_SUMMARY" :onClick="copyToClipboard" buttonText="Share" />
 	</div>
 </template>
 

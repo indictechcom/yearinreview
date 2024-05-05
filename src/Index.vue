@@ -131,6 +131,7 @@ export default {
         const topDay = stats.dayofweek[0];
         this.pages = [];
         if (stats.totalEdits) {
+          this.totalEdits = stats.totalEdits;
           this.pages.push({
             type: CARD_TYPE.USER_STATS,
             image: WIKIPEDIA,
@@ -216,6 +217,7 @@ export default {
         }
 
         if (stats.talkEdits > 0) {
+          this.talkEdits = stats.talkEdits;
           this.pages.push({
             type: CARD_TYPE.USER_STATS,
             messagePrefix: "You contributed",
@@ -229,6 +231,7 @@ export default {
 
         let wasThanked = false;
         if (stats.thanksCount > 0) {
+          this.thankedCount = stats.thankedCount;
           wasThanked = true;
           this.pages = this.pages.concat([
             {
@@ -241,6 +244,7 @@ export default {
           ]);
         }
         if (stats.thanksCount > 0) {
+          this.thanksCount = stats.thanksCount;
           this.pages = this.pages.concat([
             {
               type: CARD_TYPE.USER_STATS,
@@ -320,7 +324,7 @@ export default {
       }
     },
     async copyToClipboard() {
-      const SHARE_TEXT = `Here is how I have been contributing to Wikipedia in ${PREVIOUS_YEAR}!`;
+      const SHARE_TEXT = `Here is how I have been contributing to ${this.project} in ${PREVIOUS_YEAR}!`;
       const share = (blob) => {
         let msg = "";
         try {
@@ -331,11 +335,10 @@ export default {
           ]);
           msg = "An image has been shared to your clipboard.";
         } catch (error) {
-          console.log("ERROR1: ", error)
           // pass.
           try {
             navigator.clipboard.writeText(
-              `${SHARE_TEXT} Edits: 10, Discussions: 1, Thanks: 2, Thanked: 4 #wikipediaYIR`
+              `${SHARE_TEXT} Edits: ${this.totalEdits}, Discussions: ${this.talkEdits}, Thanks: ${this.thanksCount}, Thanked: ${this.thankedCount} #${this.project}YIR`
             );
             msg = "Text has been shared to your clipboard.";
           } catch (error) {
@@ -371,7 +374,6 @@ export default {
       } catch (error) {
         console.log("ERROR3: ", error)
       }
-      console.log("DEBUG: ", res)
       htmlToImage
         .toBlob(node)
         .then((blob) => {
@@ -399,7 +401,11 @@ export default {
       error: false,
       currentPage: SCREEN_TYPE.USER_INPUT_SCREEN,
       currentCardIndex: -1,
-      cards: []
+      cards: [],
+      totalEdits: 0,
+      talkEdits: 0,
+      thanksCount: 0,
+      thankedCount: 0
     };
   },
 };
