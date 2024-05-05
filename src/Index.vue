@@ -238,6 +238,7 @@ export default {
               type: CARD_TYPE.USER_STATS,
               messagePrefix: "You were appreciated by",
               image: FRIENDSHIP,
+              backgroundColor: "#86847f",
               value: toReadable(stats.thankedCount),
               qualifier: "editors",
             },
@@ -252,6 +253,7 @@ export default {
                 ? "And you showed appreciation to"
                 : "You showed appreciation to",
               image: COMMUNITY,
+              backgroundColor: "#86847f",
               value: toReadable(stats.thanksCount),
               qualifier: "other humans",
             },
@@ -267,6 +269,7 @@ export default {
             {
               type: CARD_TYPE.USER_STATS,
               messagePrefix: `@${stats.topThanksTo[0].title}`,
+              backgroundColor: "#86847f",
               //value: stats.topThanksTo[0].count,
               //qualifier: 'User'
               messageSuffix: "was the user you thanked the most",
@@ -280,6 +283,7 @@ export default {
               type: CARD_TYPE.USER_STATS,
               messagePrefix: `@${stats.topThanksFrom[0].user}`,
               messageSuffix: "was your biggest fan",
+              backgroundColor: "#86847f",
             },
           ]);
         }
@@ -291,6 +295,7 @@ export default {
               messagePrefix: "@" + username,
               messageSuffix: previousYear,
               image: PUZZLE,
+              backgroundColor: "#db8e46",
               shareStats: {
                   project: this.project,
                   editCount: toReadable(stats.totalEdits) ?? 0,
