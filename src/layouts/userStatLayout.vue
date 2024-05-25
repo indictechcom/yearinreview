@@ -48,6 +48,8 @@
 			/>
 
 		</div>
+		<p class="thankyou-para">Thank you for viewing your year in <br> review and for contributing to the <br> sum of all human knowledge.</p>
+		<p class="base-para"> Happy 2024! </p>
 		<Button v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type === CARD_TYPE.USER_SUMMARY" :onClick="copyToClipboard" buttonText="Share" />
 	</div>
 </template>
@@ -106,5 +108,15 @@
 		width: 100%;
 		margin: 1rem auto;
 		padding: 2rem;
+	}
+	.thankyou-para{
+		color: white;
+		text-align: center;
+		font-size: 20px;
+	 }
+	.base-para{
+	color: white;
+	text-align: center;
+	font-size: 30px;
 	}
 </style>
