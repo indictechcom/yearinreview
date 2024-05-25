@@ -21,7 +21,7 @@ export default {
   padding: 2rem 1rem;
   border-radius: 1rem;
   text-align: center;
-  width: 50%;
+  width: 30%;
 
   @media only screen and (max-width: 640px) {
     width: 80%;
