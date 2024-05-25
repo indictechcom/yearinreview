@@ -19,7 +19,7 @@ export default {
   background: white;
   margin: 0 auto;
   padding: 2rem 1rem;
-  border-radius: 1rem;
+  border-radius: 5rem;
   text-align: center;
   width: 30%;
 
