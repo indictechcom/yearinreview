@@ -55,16 +55,18 @@
         v-if="currentCardIndex !== cards.length - 1"
       />
     </div>
-    <p class="thankyou-para">
-      Thank you for viewing your year in <br> review and for contributing to the <br> sum of all human knowledge.
-    </p>
-    <p class="base-para">Happy 2024!</p>
-    <Button
-      v-if="cards[currentCardIndex]?.type === CARD_TYPE.USER_SUMMARY"
-      :onClick="copyToClipboard"
-      buttonText="Share stats"
-      :iconLink="cdxIconShare"
-    />  
+    <div v-if="cards[currentCardIndex]?.type === CARD_TYPE.USER_SUMMARY">
+      <p class="thankyou-para">
+        Thank you for viewing your year in <br> review and for contributing to the <br> sum of all human knowledge.
+      </p>
+      <p class="base-para">Happy 2024!</p>
+      <Button
+        :onClick="copyToClipboard"
+        buttonText="Share stats"
+        :iconLink="cdxIconShare"
+        :iconClass="'icon-class'"
+      />
+    </div>  
   </div>
 </template>
 
