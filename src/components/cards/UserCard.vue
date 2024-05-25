@@ -8,7 +8,6 @@
 			<slot name="userCardMiddle"></slot>
 		</template>
 		<template #bCardEnd>
-			<p style="font-size: 20px;">{{ cardEndText }}</p>
 		</template>
 	</BaseCard>
 </template>
