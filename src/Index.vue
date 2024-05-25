@@ -291,7 +291,7 @@ export default {
               messagePrefix: "@" + username,
               messageSuffix: previousYear,
               image: PUZZLE,
-              backgroundColor: "#db8e46",
+              backgroundColor: "#000000",
               shareStats: {
                   project: this.project,
                   editCount: toReadable(stats.totalEdits) ?? 0,

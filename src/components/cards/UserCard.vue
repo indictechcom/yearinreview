@@ -8,7 +8,6 @@
 			<slot name="userCardMiddle"></slot>
 		</template>
 		<template #bCardEnd>
-			<p style="font-size: 20px;">{{ cardEndText }}</p>
 		</template>
 	</BaseCard>
 </template>
@@ -34,6 +33,6 @@ export default {
 </script>
 <style>
 .stat-card-image {
-	width: 60%;
+	width: 80%;
 }
 </style>
