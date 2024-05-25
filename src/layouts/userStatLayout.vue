@@ -46,12 +46,7 @@
 				:onClick="goNext"
 				v-if="currentCardIndex != this.cards.length - 1"
 			/>
-			<Button 
-				buttonText="Previous" 
-				weight="normal"
-				:onClick="goBack"
-				v-if="currentCardIndex != 0"
-			/>
+
 		</div>
 		<Button v-if="this.cards[currentCardIndex] && this.cards[currentCardIndex].type === CARD_TYPE.USER_SUMMARY" :onClick="copyToClipboard" buttonText="Share" />
 	</div>
