@@ -96,7 +96,6 @@
 <style scoped>
 	.buttons-area {
 		width: 50%;
-		margin: 0 auto;
 		padding: 1rem;
 
 		button {
