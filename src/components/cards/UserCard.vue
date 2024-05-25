@@ -34,6 +34,6 @@ export default {
 </script>
 <style>
 .stat-card-image {
-	width: 60%;
+	width: 80%;
 }
 </style>
