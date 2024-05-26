@@ -7,25 +7,28 @@ const CACHE_TIME = 7 * 24 * 60 * 60;
 let status = "31st December";
 
 
-const cacheFetch = (url) => {
-  return new Promise((resolve, reject) => {
-    // const cached = shortTermCache[url];
-    // if (cached) {
-    //   setTimeout(() => {
-    //     resolve(JSON.parse(cached));
-    //   }, DELAY);
-    // }
-    fetch(url)
-      .then((r) => r.json())
-      .then((json) => {
-        if (!json.error) {
-        } else {
-          reject();
-        }
-        resolve(json);
+const cacheFetch = async (url) => {
+    const cached = await getCache(url);
+    if (cached) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(cached);
+        }, DELAY);
       });
-  });
+    }
+
+    return fetch(url)
+    .then((r) => r.json())
+    .then(async (json) => {
+      if (!json.error) {
+        await setCache(url, json);
+        return json;
+      } else {
+        throw new Error('Error fetching data');
+      }
+    });
 };
+
 
 const getDateSuffix = (day) => {
   if (day === 1) {
