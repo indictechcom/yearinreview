@@ -73,6 +73,10 @@ const continueFetch = (url, params, list) => {
   });
 };
 
+const toDate = (timestamp) => {
+  return new Date(timestamp);
+};
+
 const getDateSuffix = (day) => {
   if (day === 1) {
     return "st";
