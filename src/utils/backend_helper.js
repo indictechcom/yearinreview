@@ -3,7 +3,7 @@ import { getCache, setCache, clearOldCache } from '../helpers/indexedDBHelper';
 import * as url from "./url_helper";
 
 const DELAY = 300;
-const CACHE_TIME = 7 * 24 * 60 * 60;
+const CACHE_TIME = 7 * 24 * 60 * 60 * 1000;
 let status = "31st December";
 
 
