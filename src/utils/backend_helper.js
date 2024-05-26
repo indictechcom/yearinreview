@@ -123,23 +123,6 @@ const thanksSummary = async (username, year, project) => {
   }
 };
 
-const thankedSummary = async (username, year, project) => {
-  try {
-    const response = await continueFetch(
-      getApiUrl(project),
-      getRequestConfig(username, year, project),
-      "logevents"
-    );
-
-    return {
-      topThanksFrom: topArticles(response, "user"),
-      thankedCount: response.length,
-    };
-  } catch (error) {
-    console.error("Error fetching thanked summary:", error);
-    return null;
-  }
-};
 
 const topArticles = (articles, field = "title") => {
   const titles = {};
