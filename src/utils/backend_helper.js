@@ -1,57 +1,77 @@
 // https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
-const DELAY = 300;
-
-const OLD_CACHE_KEY = "cache-summaries";
-const CACHE_KEY = "cache-summaries-1";
-localStorage.removeItem(OLD_CACHE_KEY);
-// const shortTermCache = JSON.parse(localStorage.getItem("cache-short") || "{}");
-// const summaryCache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
-
+import { getCache, setCache, clearOldCache } from '../helpers/indexedDBHelper';
 import * as url from "./url_helper";
 
-// A week cache is fine.
-const CACHE_TIME = 7 * 24 * 60 * 60;
-
-// const pruneCache = () => {
-//   const keys = Object.keys(shortTermCache);
-//   if (keys.length > 50) {
-//     keys.slice(0, 50).forEach((key) => {
-//       delete shortTermCache[key];
-//     });
-//   }
-// };
-
+const DELAY = 300;
+const CACHE_TIME = 7 * 24 * 60 * 60 * 1000;
 let status = "31st December";
-const cacheFetch = (url) => {
-  return new Promise((resolve, reject) => {
-    // const cached = shortTermCache[url];
-    // if (cached) {
-    //   setTimeout(() => {
-    //     resolve(JSON.parse(cached));
-    //   }, DELAY);
-    // }
-    fetch(url)
-      .then((r) => r.json())
-      .then((json) => {
-        if (!json.error) {
-          // shortTermCache[url] = json;
-          // try {
-          //   localStorage.setItem("cache-short", JSON.stringify(shortTermCache));
-          // } catch (e) {
-          //   pruneCache();
-          //   try {
-          //     localStorage.setItem(
-          //       "cache-short",
-          //       JSON.stringify(shortTermCache)
-          //     );
-          //   } catch (e) {}
-          // }
-        } else {
-          reject();
-        }
-        resolve(json);
+
+
+const cacheFetch = async (url) => {
+    const cached = await getCache(url);
+    if (cached) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(cached);
+        }, DELAY);
       });
-  });
+    }
+
+    return fetch(url)
+    .then((r) => r.json())
+    .then(async (json) => {
+      if (!json.error) {
+        await setCache(url, json);
+        return json;
+      } else {
+        throw new Error('Error fetching data');
+      }
+    });
+};
+
+const getRequestConfig = (username, year, project) => {
+  return {
+    leend: `${parseInt(year) - 1}-12-31T23:59:59.000Z`,
+    lestart: `${parseInt(year) + 1}-01-01T00:00:00.000Z`,
+    maxage: CACHE_TIME,
+    smaxage: CACHE_TIME,
+    lelimit: 500,
+    origin: "*",
+    action: "query",
+    format: "json",
+    formatversion: 2,
+    list: "logevents",
+    letype: "thanks",
+    ...(project ? { letitle: `User:${username}` } : { leuser: username }),
+  };
+};
+
+const getApiUrl = (project) => `https://${project}/w/api.php`;
+
+const continueFetch = async (url, params, list) => {
+  const q = new URLSearchParams(params).toString();
+  let result = [];
+  const r = await cacheFetch(`${url}?${q}`);
+    result = result.concat((r.query[list] || []).filter((r) => r));
+    const c = result[result.length - 1];
+    if (c) {
+      const d = toDate(c.timestamp);
+      const day = d.getDate();
+      const suffix = getDateSuffix(day);
+      status = `${day}${suffix} ${toReadableMonth(c.timestamp)}`;
+    }
+    if (r.continue) {
+      Object.keys(r.continue).forEach((key) => {
+        params[key] = r.continue[key];
+      });
+      const nextResult = await continueFetch(url, params, list);
+    result = result.concat(nextResult).filter((r) => r);
+  }
+  return result;
+};
+
+const toDate = (timestamp) => {
+  return new Date(timestamp);
 };
 
 const getDateSuffix = (day) => {
@@ -64,10 +84,6 @@ const getDateSuffix = (day) => {
   } else {
     return "th";
   }
-};
-
-const toDate = (timestamp) => {
-  return new Date(timestamp);
 };
 
 const toReadableMonth = (timestamp) => {
@@ -90,30 +106,23 @@ const toReadableMonth = (timestamp) => {
   return `${months[m]}`;
 };
 
-const continueFetch = (url, params, list) => {
-  const q = new URLSearchParams(params).toString();
-  let result = [];
-  return cacheFetch(`${url}?${q}`).then((r) => {
-    result = result.concat((r.query[list] || []).filter((r) => r));
-    const c = result[result.length - 1];
-    if (c) {
-      const d = toDate(c.timestamp);
-      const day = d.getDate();
-      const suffix = getDateSuffix(day);
-      status = `${day}${suffix} ${toReadableMonth(c.timestamp)}`;
-    }
-    if (r.continue) {
-      Object.keys(r.continue).forEach((key) => {
-        params[key] = r.continue[key];
-      });
-      return continueFetch(url, params, list).then((r) => {
-        return result.concat(r).filter((r) => r);
-      });
-    } else {
-      return Promise.resolve(result);
-    }
-  });
+const thanksSummary = async (username, year, project) => {
+  try {
+    const response = await continueFetch(
+      getApiUrl(project),
+      getRequestConfig(username, year, project),
+      "logevents"
+    );
+    return {
+      topThanksFrom: topArticles(response, "user"),
+      thankedCount: response.length,
+    };
+  } catch (error) {
+    console.error("Error fetching thanks summary:", error);
+    return null;
+  }
 };
+
 
 const topArticles = (articles, field = "title") => {
   const titles = {};
@@ -128,66 +137,6 @@ const topArticles = (articles, field = "title") => {
     .sort((a, b) => (a.count > b.count ? -1 : 1));
 };
 
-// Helper function to generate API request configuration
-const getRequestConfig = (username, year, project) => {
-  return {
-    leend: `${parseInt(year) - 1}-12-31T23:59:59.000Z`,
-    lestart: `${parseInt(year) + 1}-01-01T00:00:00.000Z`,
-    maxage: CACHE_TIME,
-    smaxage: CACHE_TIME,
-    lelimit: 500,
-    origin: "*",
-    action: "query",
-    format: "json",
-    formatversion: 2,
-    list: "logevents",
-    letype: "thanks",
-    ...(project ? { letitle: `User:${username}` } : { leuser: username }),
-  };
-};
-
-// Helper function to generate API URL
-const getApiUrl = (project) => `https://${project}/w/api.php`;
-
-// Function to fetch thanks summary
-const thanksSummary = async (username, year, project) => {
-  try {
-    const response = await continueFetch(
-      getApiUrl(project),
-      getRequestConfig(username, year, project),
-      "logevents"
-    );
-    return {
-      topThanksTo: topArticles(response).map((u) =>
-        Object.assign(u, {
-          title: u.title.indexOf(":") > -1 ? u.title.split(":")[1] : u.title,
-        })
-      ),
-      thanksCount: response.length,
-    };
-  } catch (error) {
-    console.error("Error fetching thanks summary:", error);
-    return null;
-  }
-};
-
-const thankedSummary = async (username, year, project) => {
-  try {
-    const response = await continueFetch(
-      getApiUrl(project),
-      getRequestConfig(username, year, project),
-      "logevents"
-    );
-
-    return {
-      topThanksFrom: topArticles(response, "user"),
-      thankedCount: response.length,
-    };
-  } catch (error) {
-    console.error("Error fetching thanked summary:", error);
-    return null;
-  }
-};
 
 const addThumbs = (titles) => {
   return Promise.all(
@@ -233,7 +182,7 @@ const summarize = (contribs) => {
   });
 };
 
-const yir = (username, year, project) => {
+const yir = async (username, year, project) => {
   if (
     !project.match(
       /[^\.]*\.(wikivoyage|wikinews|wikiversity|wikibooks|wikiquote|wiktionary|wikifunctions|wikisource|wikipedia|mediawiki|wikidata|wikimedia)\.org/
@@ -243,14 +192,15 @@ const yir = (username, year, project) => {
     return Promise.reject();
   }
   const cacheKey = `${username}:${year}:${project}`;
-  // if (summaryCache[cacheKey]) {
-  //   return Promise.resolve(summaryCache[cacheKey]);
-  // }
-  return Promise.all([
+  const cachedSummary = await getCache(cacheKey);
+  if (cachedSummary) {
+    return Promise.resolve(cachedSummary);
+  }
+
+  const [thanks, summary] = await Promise.all([
     thanksSummary(username, year, project),
-    thankedSummary(username, year, project),
     continueFetch(
-      `https://${project}/w/api.php`,
+      getApiUrl(project),
       {
         ucend: `${parseInt(year) - 1}-12-31T23:59:59.000Z`,
         ucstart: `${parseInt(year) + 1}-01-01T00:00:00.000Z`,
@@ -266,15 +216,12 @@ const yir = (username, year, project) => {
       },
       "usercontribs"
     ).then((r) => summarize(r)),
-  ]).then((results) => {
-    const summary = Object.assign.apply({}, results);
-    // summaryCache[cacheKey] = summary;
-    // localStorage.setItem(CACHE_KEY, JSON.stringify(summaryCache));
-    return summary;
-  });
+  ]);
+
+  const summaryData = { thanks, thanked, summary };
+  await setCache(cacheKey, summaryData);
+  return summaryData;
 };
 
-yir.getStatus = () => {
-  return status;
-};
+yir.getStatus = () => status;
 export default yir;
