@@ -214,9 +214,8 @@ const yir = async (username, year, project) => {
     return Promise.resolve(cachedSummary);
   }
 
-  const [thanks, thanked, summary] = await Promise.all([
+  const [thanks, summary] = await Promise.all([
     thanksSummary(username, year, project),
-    thankedSummary(username, year, project),
     continueFetch(
       getApiUrl(project),
       {
