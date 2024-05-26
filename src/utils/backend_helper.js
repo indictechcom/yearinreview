@@ -4,22 +4,10 @@ const DELAY = 300;
 const OLD_CACHE_KEY = "cache-summaries";
 const CACHE_KEY = "cache-summaries-1";
 localStorage.removeItem(OLD_CACHE_KEY);
-// const shortTermCache = JSON.parse(localStorage.getItem("cache-short") || "{}");
-// const summaryCache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
-
 import * as url from "./url_helper";
 
-// A week cache is fine.
 const CACHE_TIME = 7 * 24 * 60 * 60;
 
-// const pruneCache = () => {
-//   const keys = Object.keys(shortTermCache);
-//   if (keys.length > 50) {
-//     keys.slice(0, 50).forEach((key) => {
-//       delete shortTermCache[key];
-//     });
-//   }
-// };
 
 let status = "31st December";
 const cacheFetch = (url) => {
@@ -34,18 +22,6 @@ const cacheFetch = (url) => {
       .then((r) => r.json())
       .then((json) => {
         if (!json.error) {
-          // shortTermCache[url] = json;
-          // try {
-          //   localStorage.setItem("cache-short", JSON.stringify(shortTermCache));
-          // } catch (e) {
-          //   pruneCache();
-          //   try {
-          //     localStorage.setItem(
-          //       "cache-short",
-          //       JSON.stringify(shortTermCache)
-          //     );
-          //   } catch (e) {}
-          // }
         } else {
           reject();
         }
@@ -243,9 +219,7 @@ const yir = (username, year, project) => {
     return Promise.reject();
   }
   const cacheKey = `${username}:${year}:${project}`;
-  // if (summaryCache[cacheKey]) {
-  //   return Promise.resolve(summaryCache[cacheKey]);
-  // }
+
   return Promise.all([
     thanksSummary(username, year, project),
     thankedSummary(username, year, project),
@@ -268,8 +242,6 @@ const yir = (username, year, project) => {
     ).then((r) => summarize(r)),
   ]).then((results) => {
     const summary = Object.assign.apply({}, results);
-    // summaryCache[cacheKey] = summary;
-    // localStorage.setItem(CACHE_KEY, JSON.stringify(summaryCache));
     return summary;
   });
 };
