@@ -114,12 +114,8 @@ const thanksSummary = async (username, year, project) => {
       "logevents"
     );
     return {
-      topThanksTo: topArticles(response).map((u) =>
-        Object.assign(u, {
-          title: u.title.indexOf(":") > -1 ? u.title.split(":")[1] : u.title,
-        })
-      ),
-      thanksCount: response.length,
+      topThanksFrom: topArticles(response, "user"),
+      thankedCount: response.length,
     };
   } catch (error) {
     console.error("Error fetching thanks summary:", error);
@@ -222,7 +218,7 @@ const yir = async (username, year, project) => {
     thanksSummary(username, year, project),
     thankedSummary(username, year, project),
     continueFetch(
-      `https://${project}/w/api.php`,
+      getApiUrl(project),
       {
         ucend: `${parseInt(year) - 1}-12-31T23:59:59.000Z`,
         ucstart: `${parseInt(year) + 1}-01-01T00:00:00.000Z`,
