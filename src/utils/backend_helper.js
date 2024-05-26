@@ -202,7 +202,7 @@ const summarize = (contribs) => {
   });
 };
 
-const yir = (username, year, project) => {
+const yir = async (username, year, project) => {
   if (
     !project.match(
       /[^\.]*\.(wikivoyage|wikinews|wikiversity|wikibooks|wikiquote|wiktionary|wikifunctions|wikisource|wikipedia|mediawiki|wikidata|wikimedia)\.org/
@@ -212,8 +212,12 @@ const yir = (username, year, project) => {
     return Promise.reject();
   }
   const cacheKey = `${username}:${year}:${project}`;
+  const cachedSummary = await getCache(cacheKey);
+  if (cachedSummary) {
+    return Promise.resolve(cachedSummary);
+  }
 
-  return Promise.all([
+  const [thanks, thanked, summary] = await Promise.all([
     thanksSummary(username, year, project),
     thankedSummary(username, year, project),
     continueFetch(
@@ -233,13 +237,12 @@ const yir = (username, year, project) => {
       },
       "usercontribs"
     ).then((r) => summarize(r)),
-  ]).then((results) => {
-    const summary = Object.assign.apply({}, results);
-    return summary;
-  });
+  ]);
+
+  const summaryData = { thanks, thanked, summary };
+  await setCache(cacheKey, summaryData);
+  return summaryData;
 };
 
-yir.getStatus = () => {
-  return status;
-};
+yir.getStatus = () => status;
 export default yir;
