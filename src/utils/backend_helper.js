@@ -48,10 +48,10 @@ const getRequestConfig = (username, year, project) => {
 
 const getApiUrl = (project) => `https://${project}/w/api.php`;
 
-const continueFetch = (url, params, list) => {
+const continueFetch = async (url, params, list) => {
   const q = new URLSearchParams(params).toString();
   let result = [];
-  return cacheFetch(`${url}?${q}`).then((r) => {
+  const r = await cacheFetch(`${url}?${q}`);
     result = result.concat((r.query[list] || []).filter((r) => r));
     const c = result[result.length - 1];
     if (c) {
@@ -64,13 +64,10 @@ const continueFetch = (url, params, list) => {
       Object.keys(r.continue).forEach((key) => {
         params[key] = r.continue[key];
       });
-      return continueFetch(url, params, list).then((r) => {
-        return result.concat(r).filter((r) => r);
-      });
-    } else {
-      return Promise.resolve(result);
-    }
-  });
+      const nextResult = await continueFetch(url, params, list);
+    result = result.concat(nextResult).filter((r) => r);
+  }
+  return result;
 };
 
 const toDate = (timestamp) => {
