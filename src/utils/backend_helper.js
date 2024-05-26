@@ -29,42 +29,24 @@ const cacheFetch = async (url) => {
     });
 };
 
-
-const getDateSuffix = (day) => {
-  if (day === 1) {
-    return "st";
-  } else if (day === 2) {
-    return "nd";
-  } else if (day === 3) {
-    return "rd";
-  } else {
-    return "th";
-  }
+const getRequestConfig = (username, year, project) => {
+  return {
+    leend: `${parseInt(year) - 1}-12-31T23:59:59.000Z`,
+    lestart: `${parseInt(year) + 1}-01-01T00:00:00.000Z`,
+    maxage: CACHE_TIME,
+    smaxage: CACHE_TIME,
+    lelimit: 500,
+    origin: "*",
+    action: "query",
+    format: "json",
+    formatversion: 2,
+    list: "logevents",
+    letype: "thanks",
+    ...(project ? { letitle: `User:${username}` } : { leuser: username }),
+  };
 };
 
-const toDate = (timestamp) => {
-  return new Date(timestamp);
-};
-
-const toReadableMonth = (timestamp) => {
-  const date = toDate(timestamp);
-  const m = date.getMonth();
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  return `${months[m]}`;
-};
+const getApiUrl = (project) => `https://${project}/w/api.php`;
 
 const continueFetch = (url, params, list) => {
   const q = new URLSearchParams(params).toString();
@@ -91,41 +73,38 @@ const continueFetch = (url, params, list) => {
   });
 };
 
-const topArticles = (articles, field = "title") => {
-  const titles = {};
-  articles.forEach((t) => {
-    if (titles[t[field]] === undefined) {
-      titles[t[field]] = 0;
-    }
-    titles[t[field]]++;
-  });
-  return Object.keys(titles)
-    .map((title) => ({ [field]: title, count: titles[title] }))
-    .sort((a, b) => (a.count > b.count ? -1 : 1));
+const getDateSuffix = (day) => {
+  if (day === 1) {
+    return "st";
+  } else if (day === 2) {
+    return "nd";
+  } else if (day === 3) {
+    return "rd";
+  } else {
+    return "th";
+  }
 };
 
-// Helper function to generate API request configuration
-const getRequestConfig = (username, year, project) => {
-  return {
-    leend: `${parseInt(year) - 1}-12-31T23:59:59.000Z`,
-    lestart: `${parseInt(year) + 1}-01-01T00:00:00.000Z`,
-    maxage: CACHE_TIME,
-    smaxage: CACHE_TIME,
-    lelimit: 500,
-    origin: "*",
-    action: "query",
-    format: "json",
-    formatversion: 2,
-    list: "logevents",
-    letype: "thanks",
-    ...(project ? { letitle: `User:${username}` } : { leuser: username }),
-  };
+const toReadableMonth = (timestamp) => {
+  const date = toDate(timestamp);
+  const m = date.getMonth();
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  return `${months[m]}`;
 };
 
-// Helper function to generate API URL
-const getApiUrl = (project) => `https://${project}/w/api.php`;
-
-// Function to fetch thanks summary
 const thanksSummary = async (username, year, project) => {
   try {
     const response = await continueFetch(
@@ -164,6 +143,20 @@ const thankedSummary = async (username, year, project) => {
     return null;
   }
 };
+
+const topArticles = (articles, field = "title") => {
+  const titles = {};
+  articles.forEach((t) => {
+    if (titles[t[field]] === undefined) {
+      titles[t[field]] = 0;
+    }
+    titles[t[field]]++;
+  });
+  return Object.keys(titles)
+    .map((title) => ({ [field]: title, count: titles[title] }))
+    .sort((a, b) => (a.count > b.count ? -1 : 1));
+};
+
 
 const addThumbs = (titles) => {
   return Promise.all(
