@@ -1,15 +1,12 @@
 // https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
-const DELAY = 300;
-
-const OLD_CACHE_KEY = "cache-summaries";
-const CACHE_KEY = "cache-summaries-1";
-localStorage.removeItem(OLD_CACHE_KEY);
+import { getCache, setCache, clearOldCache } from '../helpers/indexedDBHelper';
 import * as url from "./url_helper";
 
+const DELAY = 300;
 const CACHE_TIME = 7 * 24 * 60 * 60;
-
-
 let status = "31st December";
+
+
 const cacheFetch = (url) => {
   return new Promise((resolve, reject) => {
     // const cached = shortTermCache[url];
